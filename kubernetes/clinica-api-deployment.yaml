@@ -139,7 +139,7 @@ spec:
               value: Development
             - name: TZ
               value: America/Sao_Paulo
-          image: gcr.io/clinica-400119/github.com/dallbia/casagrandeapi
+          image: gcr.io/clinica-410018/github.com/Bi-Dall/ClinicaApi.git
           imagePullPolicy: IfNotPresent
           name: clinica-api
           ports:
