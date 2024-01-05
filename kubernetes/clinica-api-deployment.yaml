@@ -11,13 +11,20 @@ metadata:
     - apiVersion: apps/v1
       fieldsType: FieldsV1
       fieldsV1:
+        'f:spec':
+          'f:replicas': {}
+      manager: vpa-recommender
+      operation: Update
+      subresource: scale
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
         'f:metadata':
           'f:labels':
             .: {}
             'f:app': {}
         'f:spec':
           'f:progressDeadlineSeconds': {}
-          'f:replicas': {}
           'f:revisionHistoryLimit': {}
           'f:selector': {}
           'f:strategy':
@@ -35,7 +42,6 @@ metadata:
               'f:containers':
                 'k:{"name":"clinicaapi-1"}':
                   .: {}
-                  'f:image': {}
                   'f:imagePullPolicy': {}
                   'f:name': {}
                   'f:resources': {}
@@ -49,6 +55,29 @@ metadata:
       manager: GoogleCloudConsole
       operation: Update
       time: '2024-01-05T05:15:48Z'
+    - apiVersion: apps/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:gcb-build-id': {}
+            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+          'f:labels':
+            'f:app.kubernetes.io/version': {}
+        'f:spec':
+          'f:template':
+            'f:metadata':
+              'f:annotations':
+                'f:gcb-build-id': {}
+              'f:labels':
+                'f:app.kubernetes.io/version': {}
+            'f:spec':
+              'f:containers':
+                'k:{"name":"clinicaapi-1"}':
+                  'f:image': {}
+      manager: kubectl-client-side-apply
+      operation: Update
+      time: '2024-01-05T08:11:49Z'
     - apiVersion: apps/v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -82,11 +111,11 @@ metadata:
       manager: kube-controller-manager
       operation: Update
       subresource: status
-      time: '2024-01-05T05:18:17Z'
+      time: '2024-01-05T08:14:58Z'
   name: clinica-api-deployment
   namespace: default
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: clinica-api-deployment
@@ -153,6 +182,18 @@ metadata:
     - apiVersion: autoscaling/v2
       fieldsType: FieldsV1
       fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:gcb-build-id': {}
+            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+          'f:labels':
+            'f:app.kubernetes.io/version': {}
+      manager: kubectl-client-side-apply
+      operation: Update
+      time: '2024-01-05T08:11:50Z'
+    - apiVersion: autoscaling/v2
+      fieldsType: FieldsV1
+      fieldsV1:
         'f:status':
           'f:conditions':
             .: {}
@@ -180,10 +221,11 @@ metadata:
           'f:currentMetrics': {}
           'f:currentReplicas': {}
           'f:desiredReplicas': {}
+          'f:lastScaleTime': {}
       manager: vpa-recommender
       operation: Update
       subresource: status
-      time: '2024-01-05T05:18:04Z'
+      time: '2024-01-05T11:26:47Z'
   name: clinica-api-deployment-hpa-irak
   namespace: default
 spec:
@@ -234,7 +276,7 @@ metadata:
           'f:type': {}
       manager: GoogleCloudConsole
       operation: Update
-      time: '2024-01-05T05:16:47Z'
+      time: '2024-01-05T07:39:34Z'
     - apiVersion: v1
       fieldsType: FieldsV1
       fieldsV1:
@@ -242,24 +284,42 @@ metadata:
           'f:finalizers':
             .: {}
             'v:"service.kubernetes.io/load-balancer-cleanup"': {}
+        'f:status':
+          'f:loadBalancer':
+            'f:ingress': {}
       manager: cloud-controller-manager
       operation: Update
       subresource: status
-      time: '2024-01-05T05:16:47Z'
+      time: '2024-01-05T07:40:07Z'
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:gcb-build-id': {}
+            'f:gcb-trigger-id': {}
+            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+          'f:labels':
+            'f:app.kubernetes.io/managed-by': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/version': {}
+      manager: kubectl-client-side-apply
+      operation: Update
+      time: '2024-01-05T08:11:27Z'
   name: clinica-api-deployment-service
   namespace: default
 spec:
   allocateLoadBalancerNodePorts: true
-  clusterIP: 34.118.239.170
+  clusterIP: 34.118.238.66
   clusterIPs:
-    - 34.118.239.170
+    - 34.118.238.66
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - nodePort: 30801
+    - nodePort: 32175
       port: 80
       protocol: TCP
       targetPort: 80
