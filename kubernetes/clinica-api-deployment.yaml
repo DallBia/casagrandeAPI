@@ -2,120 +2,131 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    autopilot.gke.io/resource-adjustment: >-
-      {"input":{"containers":[{"name":"clinicaapi-1"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"clinicaapi-1"}]},"modified":true}
+    autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"clinicaapi-1"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"clinicaapi-1"}]},"modified":true}'
     autopilot.gke.io/warden-version: 2.7.41
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"autopilot.gke.io/resource-adjustment":"{\"input\":{\"containers\":[{\"name\":\"clinicaapi-1\"}]},\"output\":{\"containers\":[{\"limits\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"2Gi\"},\"name\":\"clinicaapi-1\"}]},\"modified\":true}","autopilot.gke.io/warden-version":"2.7.41"},"labels":{"app":"clinica-api-deployment"},"managedFields":[{"apiVersion":"apps/v1","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:replicas":{}}},"manager":"vpa-recommender","operation":"Update","subresource":"scale"},{"apiVersion":"apps/v1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:labels":{".":{},"f:app":{}}},"f:spec":{"f:progressDeadlineSeconds":{},"f:revisionHistoryLimit":{},"f:selector":{},"f:strategy":{"f:rollingUpdate":{".":{},"f:maxSurge":{},"f:maxUnavailable":{}},"f:type":{}},"f:template":{"f:metadata":{"f:labels":{".":{},"f:app":{}}},"f:spec":{"f:containers":{"k:{\"name\":\"clinicaapi-1\"}":{".":{},"f:imagePullPolicy":{},"f:name":{},"f:resources":{},"f:terminationMessagePath":{},"f:terminationMessagePolicy":{}}},"f:dnsPolicy":{},"f:restartPolicy":{},"f:schedulerName":{},"f:securityContext":{},"f:terminationGracePeriodSeconds":{}}}}},"manager":"GoogleCloudConsole","operation":"Update","time":"2024-01-05T05:15:48Z"},{"apiVersion":"apps/v1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{"f:gcb-build-id":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}},"f:labels":{"f:app.kubernetes.io/version":{}}},"f:spec":{"f:template":{"f:metadata":{"f:annotations":{"f:gcb-build-id":{}},"f:labels":{"f:app.kubernetes.io/version":{}}},"f:spec":{"f:containers":{"k:{\"name\":\"clinicaapi-1\"}":{"f:image":{}}}}}}},"manager":"kubectl-client-side-apply","operation":"Update","time":"2024-01-05T08:11:49Z"},{"apiVersion":"apps/v1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{"f:deployment.kubernetes.io/revision":{}}},"f:status":{"f:availableReplicas":{},"f:conditions":{".":{},"k:{\"type\":\"Available\"}":{".":{},"f:lastTransitionTime":{},"f:lastUpdateTime":{},"f:message":{},"f:reason":{},"f:status":{},"f:type":{}},"k:{\"type\":\"Progressing\"}":{".":{},"f:lastTransitionTime":{},"f:lastUpdateTime":{},"f:message":{},"f:reason":{},"f:status":{},"f:type":{}}},"f:observedGeneration":{},"f:readyReplicas":{},"f:replicas":{},"f:updatedReplicas":{}}},"manager":"kube-controller-manager","operation":"Update","subresource":"status","time":"2024-01-05T08:14:58Z"}],"name":"clinica-api-deployment","namespace":"default"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"clinica-api-deployment"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"labels":{"app":"clinica-api-deployment"}},"spec":{"containers":[{"image":"gcr.io/clinica-410018/github.com/bi-dall/clinicaapi","imagePullPolicy":"IfNotPresent","name":"clinicaapi-1","resources":{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"}},"securityContext":{"capabilities":{"drop":["NET_RAW"]}}}],"securityContext":{"seccompProfile":{"type":"RuntimeDefault"}},"tolerations":[{"effect":"NoSchedule","key":"kubernetes.io/arch","operator":"Equal","value":"amd64"}]}}}}
+  creationTimestamp: "2024-01-07T18:21:30Z"
+  generation: 1
   labels:
     app: clinica-api-deployment
   managedFields:
-    - apiVersion: apps/v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:spec':
-          'f:replicas': {}
-      manager: vpa-recommender
-      operation: Update
-      subresource: scale
-    - apiVersion: apps/v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:labels':
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:autopilot.gke.io/resource-adjustment: {}
+          f:autopilot.gke.io/warden-version: {}
+          f:gcb-build-id: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+        f:labels:
+          .: {}
+          f:app: {}
+          f:app.kubernetes.io/version: {}
+      f:spec:
+        f:progressDeadlineSeconds: {}
+        f:replicas: {}
+        f:revisionHistoryLimit: {}
+        f:selector: {}
+        f:strategy:
+          f:rollingUpdate:
             .: {}
-            'f:app': {}
-        'f:spec':
-          'f:progressDeadlineSeconds': {}
-          'f:revisionHistoryLimit': {}
-          'f:selector': {}
-          'f:strategy':
-            'f:rollingUpdate':
+            f:maxSurge: {}
+            f:maxUnavailable: {}
+          f:type: {}
+        f:template:
+          f:metadata:
+            f:annotations:
+              f:gcb-build-id: {}
+            f:labels:
               .: {}
-              'f:maxSurge': {}
-              'f:maxUnavailable': {}
-            'f:type': {}
-          'f:template':
-            'f:metadata':
-              'f:labels':
+              f:app: {}
+              f:app.kubernetes.io/version: {}
+          f:spec:
+            f:containers:
+              k:{"name":"clinicaapi-1"}:
                 .: {}
-                'f:app': {}
-            'f:spec':
-              'f:containers':
-                'k:{"name":"clinicaapi-1"}':
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:resources:
                   .: {}
-                  'f:imagePullPolicy': {}
-                  'f:name': {}
-                  'f:resources': {}
-                  'f:terminationMessagePath': {}
-                  'f:terminationMessagePolicy': {}
-              'f:dnsPolicy': {}
-              'f:restartPolicy': {}
-              'f:schedulerName': {}
-              'f:securityContext': {}
-              'f:terminationGracePeriodSeconds': {}
-      manager: GoogleCloudConsole
-      operation: Update
-      time: '2024-01-05T05:15:48Z'
-    - apiVersion: apps/v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:annotations':
-            'f:gcb-build-id': {}
-            'f:kubectl.kubernetes.io/last-applied-configuration': {}
-          'f:labels':
-            'f:app.kubernetes.io/version': {}
-        'f:spec':
-          'f:template':
-            'f:metadata':
-              'f:annotations':
-                'f:gcb-build-id': {}
-              'f:labels':
-                'f:app.kubernetes.io/version': {}
-            'f:spec':
-              'f:containers':
-                'k:{"name":"clinicaapi-1"}':
-                  'f:image': {}
-      manager: kubectl-client-side-apply
-      operation: Update
-      time: '2024-01-05T08:11:49Z'
-    - apiVersion: apps/v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:annotations':
-            'f:deployment.kubernetes.io/revision': {}
-        'f:status':
-          'f:availableReplicas': {}
-          'f:conditions':
+                  f:limits:
+                    .: {}
+                    f:cpu: {}
+                    f:ephemeral-storage: {}
+                    f:memory: {}
+                  f:requests:
+                    .: {}
+                    f:cpu: {}
+                    f:ephemeral-storage: {}
+                    f:memory: {}
+                f:securityContext:
+                  .: {}
+                  f:capabilities:
+                    .: {}
+                    f:drop: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+            f:dnsPolicy: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext:
+              .: {}
+              f:seccompProfile:
+                .: {}
+                f:type: {}
+            f:terminationGracePeriodSeconds: {}
+            f:tolerations: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: "2024-01-07T18:21:30Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:deployment.kubernetes.io/revision: {}
+      f:status:
+        f:availableReplicas: {}
+        f:conditions:
+          .: {}
+          k:{"type":"Available"}:
             .: {}
-            'k:{"type":"Available"}':
-              .: {}
-              'f:lastTransitionTime': {}
-              'f:lastUpdateTime': {}
-              'f:message': {}
-              'f:reason': {}
-              'f:status': {}
-              'f:type': {}
-            'k:{"type":"Progressing"}':
-              .: {}
-              'f:lastTransitionTime': {}
-              'f:lastUpdateTime': {}
-              'f:message': {}
-              'f:reason': {}
-              'f:status': {}
-              'f:type': {}
-          'f:observedGeneration': {}
-          'f:readyReplicas': {}
-          'f:replicas': {}
-          'f:updatedReplicas': {}
-      manager: kube-controller-manager
-      operation: Update
-      subresource: status
-      time: '2024-01-05T08:14:58Z'
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Progressing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+        f:observedGeneration: {}
+        f:readyReplicas: {}
+        f:replicas: {}
+        f:unavailableReplicas: {}
+        f:updatedReplicas: {}
+    manager: kube-controller-manager
+    operation: Update
+    subresource: status
+    time: "2024-01-07T18:22:40Z"
   name: clinica-api-deployment
   namespace: default
+  resourceVersion: "90503"
+  uid: 66563411-b874-4403-afae-2a38b0dd5680
 spec:
+  progressDeadlineSeconds: 600
   replicas: 1
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: clinica-api-deployment
@@ -130,200 +141,51 @@ spec:
         app: clinica-api-deployment
     spec:
       containers:
-        - image: gcr.io/clinica-410018/github.com/bi-dall/clinicaapi
-          imagePullPolicy: IfNotPresent
-          name: clinicaapi-1
-          resources:
-            limits:
-              cpu: 500m
-              ephemeral-storage: 1Gi
-              memory: 2Gi
-            requests:
-              cpu: 500m
-              ephemeral-storage: 1Gi
-              memory: 2Gi
-          securityContext:
-            capabilities:
-              drop:
-                - NET_RAW
+      - image: gcr.io/clinica-410018/github.com/bi-dall/clinicaapi
+        imagePullPolicy: IfNotPresent
+        name: clinicaapi-1
+        resources:
+          limits:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+        securityContext:
+          capabilities:
+            drop:
+            - NET_RAW
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
       securityContext:
         seccompProfile:
           type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
       tolerations:
-        - effect: NoSchedule
-          key: kubernetes.io/arch
-          operator: Equal
-          value: amd64
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  labels:
-    app: clinica-api-deployment
-  managedFields:
-    - apiVersion: autoscaling/v2
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:labels':
-            .: {}
-            'f:app': {}
-        'f:spec':
-          'f:maxReplicas': {}
-          'f:metrics': {}
-          'f:minReplicas': {}
-          'f:scaleTargetRef':
-            'f:apiVersion': {}
-            'f:kind': {}
-            'f:name': {}
-      manager: GoogleCloudConsole
-      operation: Update
-      time: '2024-01-05T05:15:48Z'
-    - apiVersion: autoscaling/v2
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:annotations':
-            'f:gcb-build-id': {}
-            'f:kubectl.kubernetes.io/last-applied-configuration': {}
-          'f:labels':
-            'f:app.kubernetes.io/version': {}
-      manager: kubectl-client-side-apply
-      operation: Update
-      time: '2024-01-05T08:11:50Z'
-    - apiVersion: autoscaling/v2
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:status':
-          'f:conditions':
-            .: {}
-            'k:{"type":"AbleToScale"}':
-              .: {}
-              'f:lastTransitionTime': {}
-              'f:message': {}
-              'f:reason': {}
-              'f:status': {}
-              'f:type': {}
-            'k:{"type":"ScalingActive"}':
-              .: {}
-              'f:lastTransitionTime': {}
-              'f:message': {}
-              'f:reason': {}
-              'f:status': {}
-              'f:type': {}
-            'k:{"type":"ScalingLimited"}':
-              .: {}
-              'f:lastTransitionTime': {}
-              'f:message': {}
-              'f:reason': {}
-              'f:status': {}
-              'f:type': {}
-          'f:currentMetrics': {}
-          'f:currentReplicas': {}
-          'f:desiredReplicas': {}
-          'f:lastScaleTime': {}
-      manager: vpa-recommender
-      operation: Update
-      subresource: status
-      time: '2024-01-05T11:26:47Z'
-  name: clinica-api-deployment-hpa-irak
-  namespace: default
-spec:
-  maxReplicas: 5
-  metrics:
-    - resource:
-        name: cpu
-        target:
-          averageUtilization: 80
-          type: Utilization
-      type: Resource
-  minReplicas: 1
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: clinica-api-deployment
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    cloud.google.com/neg: '{"ingress":true}'
-  finalizers:
-    - service.kubernetes.io/load-balancer-cleanup
-  labels:
-    app: clinica-api-deployment
-  managedFields:
-    - apiVersion: v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:labels':
-            .: {}
-            'f:app': {}
-        'f:spec':
-          'f:allocateLoadBalancerNodePorts': {}
-          'f:externalTrafficPolicy': {}
-          'f:internalTrafficPolicy': {}
-          'f:ports':
-            .: {}
-            'k:{"port":80,"protocol":"TCP"}':
-              .: {}
-              'f:port': {}
-              'f:protocol': {}
-              'f:targetPort': {}
-          'f:selector': {}
-          'f:sessionAffinity': {}
-          'f:type': {}
-      manager: GoogleCloudConsole
-      operation: Update
-      time: '2024-01-05T07:39:34Z'
-    - apiVersion: v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:finalizers':
-            .: {}
-            'v:"service.kubernetes.io/load-balancer-cleanup"': {}
-        'f:status':
-          'f:loadBalancer':
-            'f:ingress': {}
-      manager: cloud-controller-manager
-      operation: Update
-      subresource: status
-      time: '2024-01-05T07:40:07Z'
-    - apiVersion: v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        'f:metadata':
-          'f:annotations':
-            'f:gcb-build-id': {}
-            'f:gcb-trigger-id': {}
-            'f:kubectl.kubernetes.io/last-applied-configuration': {}
-          'f:labels':
-            'f:app.kubernetes.io/managed-by': {}
-            'f:app.kubernetes.io/name': {}
-            'f:app.kubernetes.io/version': {}
-      manager: kubectl-client-side-apply
-      operation: Update
-      time: '2024-01-05T08:11:27Z'
-  name: clinica-api-deployment-service
-  namespace: default
-spec:
-  allocateLoadBalancerNodePorts: true
-  clusterIP: 34.118.238.66
-  clusterIPs:
-    - 34.118.238.66
-  externalTrafficPolicy: Cluster
-  internalTrafficPolicy: Cluster
-  ipFamilies:
-    - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-    - nodePort: 32175
-      port: 80
-      protocol: TCP
-      targetPort: 80
-  selector:
-    app: clinica-api-deployment
-  sessionAffinity: None
-  type: LoadBalancer
+      - effect: NoSchedule
+        key: kubernetes.io/arch
+        operator: Equal
+        value: amd64
+status:
+  conditions:
+  - lastTransitionTime: "2024-01-07T18:21:31Z"
+    lastUpdateTime: "2024-01-07T18:21:31Z"
+    message: Deployment does not have minimum availability.
+    reason: MinimumReplicasUnavailable
+    status: "False"
+    type: Available
+  - lastTransitionTime: "2024-01-07T18:21:31Z"
+    lastUpdateTime: "2024-01-07T18:22:40Z"
+    message: ReplicaSet "clinica-api-deployment-84ccf67bd4" is progressing.
+    reason: ReplicaSetUpdated
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  replicas: 1
+  unavailableReplicas: 1
+  updatedReplicas: 1
