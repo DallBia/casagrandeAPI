@@ -253,19 +253,19 @@ metadata:
   namespace: default
 spec:
   allocateLoadBalancerNodePorts: true
-  clusterIP: 34.118.232.68
-  clusterIPs:
-    - 34.118.232.68
+  # clusterIP: 34.118.232.68
+  # clusterIPs:
+  #   - 34.118.232.68
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
-  ports:
-    - nodePort: 31109
-      port: 80
-      protocol: TCP
-      targetPort: 80
+  # ports:
+    # - nodePort: 31109
+    #   port: 80
+    #   protocol: TCP
+    #   targetPort: 80
   selector:
     api: clinica-api-deployment
   sessionAffinity: None
