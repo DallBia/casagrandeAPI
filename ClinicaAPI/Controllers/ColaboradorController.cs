@@ -55,12 +55,14 @@ namespace ClinicaAPI.Controllers
                     if (novaSenha != "")
                     {
                         User.senhaHash = novaSenha;
+                        User.senhaProv = null;
                     }
 
                     if (User.dtDeslig.ToString() == "1900-01-01" || User.dtDeslig.ToString() == "01/01/1900")
                     {
                         User.dtDeslig = null;
                         User.ativo = true;
+                        User.senhaProv = null;
                     }
 
                 }

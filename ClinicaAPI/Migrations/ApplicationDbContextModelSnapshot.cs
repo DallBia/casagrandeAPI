@@ -594,6 +594,9 @@ namespace ClinicaAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("senhaProv")
+                        .HasColumnType("text");
+
                     b.Property<string>("telFixo")
                         .HasColumnType("text");
 

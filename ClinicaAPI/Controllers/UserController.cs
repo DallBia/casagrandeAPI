@@ -43,9 +43,21 @@ namespace ClinicaAPI.Controllers
         private UserModel ValidarUsuario(LoginDTO loginDetalhes)
         {
             var smartUser = _context.Users.Where(user =>
-            user.email == loginDetalhes.Usuario && user.senhaHash == loginDetalhes.Senha
-            ).FirstOrDefault();
-            if (smartUser == null) return null; else return smartUser;
+                            user.email == loginDetalhes.Usuario && user.senhaHash == loginDetalhes.Senha
+                            ).FirstOrDefault();
+            var provtUser = _context.Users.Where(user =>
+                            user.email == loginDetalhes.Usuario && user.senhaProv == loginDetalhes.Senha
+                            ).FirstOrDefault();
+            
+            if (smartUser != null) {
+                smartUser.senhaProv = null;
+                return smartUser; }
+            else if (provtUser != null) {
+                smartUser.senhaHash = smartUser.senhaProv;
+                return provtUser; }
+            else return null;
+
+            //if (smartUser == null) return null; else return smartUser;
         }
         private string GerarTokenJWT(UserModel smartUser)
         {     //Incluir informa;óes de usuário
@@ -62,6 +74,7 @@ namespace ClinicaAPI.Controllers
             permClaims.Add(new Claim("name", smartUser.nome));
             permClaims.Add(new Claim("email", smartUser.email));
             permClaims.Add(new Claim("area", smartUser.areaSession));
+            permClaims.Add(new Claim("prov", smartUser.senhaProv));
             permClaims.Add(new Claim("perfil", smartUser.idPerfil.ToString()));
             permClaims.Add(new Claim("deslig", smartUser.dtDeslig.ToString()));
 
