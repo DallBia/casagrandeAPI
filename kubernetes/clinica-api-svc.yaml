@@ -101,7 +101,7 @@ spec:
         api: clinica-api-deployment
     spec:
       containers:
-        - image: gcr.io/clinica-410018/github.com/bi-dall/clinicaapi
+        - image: gcr.io/clinica-400119/github.com/bi-dall/clinicaapi
           imagePullPolicy: IfNotPresent
           name: clinicaapi-1
           resources:
@@ -253,9 +253,9 @@ metadata:
   namespace: default
 spec:
   allocateLoadBalancerNodePorts: true
-  # clusterIP: 34.118.232.68
+  # clusterIP: 34.121.28.41
   # clusterIPs:
-  #   - 34.118.232.68
+  #   - 34.121.28.41
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
