@@ -23,6 +23,7 @@ using Google.Apis.Drive.v3.Data;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Utilities.Collections;
 using System.Collections.Generic;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ClinicaAPI.Service.ColaboradorService
 {
@@ -117,6 +118,87 @@ namespace ClinicaAPI.Service.ColaboradorService
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<UserModel>> AlterarSenha(string email)
+        {
+            ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
+            var variavel = email.Split('֍');
+            
+            try
+            {
+                if (variavel[0] == null)
+                {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Informar dados...";
+                    serviceResponse.Sucesso = false;
+                    return serviceResponse;
+                }
+               
+                EmailRequest emailRequest = new EmailRequest();
+                emailRequest.Destinatario = variavel[0];
+                emailRequest.Assunto = "Alteração de Senha";
+                emailRequest.Corpo = variavel[1];
+
+                //ServiceResponse<List<EmailRequest>> emailResponse = await _emailService.EnviarEmailAsync(emailRequest);
+                try
+                {
+                    var enviar = new MimeMessage();
+
+
+                    enviar.From.Add(MailboxAddress.Parse(_configuration["EmailConfig:FromEmail"]));
+                    enviar.Subject = emailRequest.Assunto;
+                    enviar.Body = new TextPart("html")
+                    {
+                        Text = emailRequest.Corpo
+                    };
+                    using var smtp = new SmtpClient();
+
+                    smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                    var usuario = _configuration["EmailConfig:FromEmail"];
+                    //var usuario = "966741631742-sjsrqt2f8251f7qc0b48i2qcnrsi7tk2.apps.googleusercontent.com";
+                    var hash = "sknr xkhy mjzf twul";
+                    //var hash = _configuration["EmailConfig:Password"];
+                    enviar.To.Add(MailboxAddress.Parse(emailRequest.Destinatario));
+                    smtp.Authenticate(usuario, hash);
+                    smtp.Send(enviar);
+                    smtp.Disconnect(true);
+
+                    UserModel User = _context.Users.AsNoTracking().FirstOrDefault(x => x.email == variavel[0]);
+                    if (User == null)
+                    {
+                        serviceResponse.Mensagem = "Nenhum dado encontrado.";
+                        serviceResponse.Dados = null;
+                        serviceResponse.Sucesso = false;
+                    }
+                    else
+                    {
+                        User.senhaProv = variavel[2];
+                        _context.Users.Update(User);
+                        await _context.SaveChangesAsync();
+                        serviceResponse.Mensagem = "Nenhum dado encontrado.";
+                        serviceResponse.Dados = null;
+                        serviceResponse.Sucesso = false;
+                    }
+
+                    serviceResponse.Mensagem = "mensagem enviada";
+                    serviceResponse.Sucesso = true;
+                    serviceResponse.Dados = null;
+                }
+                catch
+                {
+                    serviceResponse.Mensagem = "erro no envio do e-mail";
+                    serviceResponse.Sucesso = false;
+                    serviceResponse.Dados = null;
+                }                
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Sucesso = false;
+                serviceResponse.Dados = null;
             }
             return serviceResponse;
         }
@@ -502,6 +584,7 @@ namespace ClinicaAPI.Service.ColaboradorService
 
         }
 
+        
     }
     
 }

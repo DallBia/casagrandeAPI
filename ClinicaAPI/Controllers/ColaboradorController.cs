@@ -89,6 +89,15 @@ namespace ClinicaAPI.Controllers
             return Ok(await _colaboradorInterface.CreateColaborador(novoColaborador));
         }
 
+        [Authorize]
+        [HttpPost("Altera")]
+        //public async Task<ActionResult<ServiceResponse<UserModel>>> AlterarSenha(string email)
+            public async Task<IActionResult> AlterarSenha([FromBody] string email)
+        {
+            ServiceResponse<UserModel> serviceResponse = await _colaboradorInterface.AlterarSenha(email);
+            return Ok(serviceResponse);
+        }
+
         [HttpGet("Agenda")]
         public async Task<ActionResult<ServiceResponse<List<TipoModel>>>> GetColaboradorbyAgenda()
         {
