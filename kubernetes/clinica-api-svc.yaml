@@ -262,7 +262,7 @@ spec:
     - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - nodePort: 31109
+    - nodePort: 31110
       port: 80
       protocol: TCP
       targetPort: 80
