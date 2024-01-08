@@ -261,11 +261,11 @@ spec:
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
-  # ports:
-    # - nodePort: 31109
-    #   port: 80
-    #   protocol: TCP
-    #   targetPort: 80
+  ports:
+    - nodePort: 31109
+      port: 80
+      protocol: TCP
+      targetPort: 80
   selector:
     api: clinica-api-deployment
   sessionAffinity: None
