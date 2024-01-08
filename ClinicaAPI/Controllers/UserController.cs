@@ -66,6 +66,12 @@ namespace ClinicaAPI.Controllers
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
+            var Provisoria = smartUser.senhaProv;
+            if (Provisoria == null)
+            {
+                Provisoria = "";
+            }
+            
 
             var permClaims = new List<Claim>();
             permClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
@@ -74,7 +80,7 @@ namespace ClinicaAPI.Controllers
             permClaims.Add(new Claim("name", smartUser.nome));
             permClaims.Add(new Claim("email", smartUser.email));
             permClaims.Add(new Claim("area", smartUser.areaSession));
-            permClaims.Add(new Claim("prov", smartUser.senhaProv));
+            permClaims.Add(new Claim("prov", Provisoria));
             permClaims.Add(new Claim("perfil", smartUser.idPerfil.ToString()));
             permClaims.Add(new Claim("deslig", smartUser.dtDeslig.ToString()));
 

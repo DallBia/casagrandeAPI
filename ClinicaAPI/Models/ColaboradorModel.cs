@@ -21,6 +21,7 @@ namespace ClinicaAPI.Models
         public bool Ativo { get; set; } = true;
         public string? AreaSession { get; set; }
         public string SenhaHash { get; set; }
+        public string? senhaProv { get; set; }
 
 
     }
