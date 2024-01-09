@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:  
+metadata:
+  name: clinica-api-deployment
+  namespace: default
   managedFields:
   - apiVersion: apps/v1
     fieldsType: FieldsV1
