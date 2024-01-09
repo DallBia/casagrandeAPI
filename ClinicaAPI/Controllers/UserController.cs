@@ -93,7 +93,7 @@ namespace ClinicaAPI.Controllers
                 issuer: issuer,
                 audience: audience,
                 permClaims,
-                expires: DateTime.Now.AddMinutes(920), //tempo de duração do token
+                expires: DateTime.Now.AddMinutes(120), //tempo de duração do token
                 signingCredentials: credentials
             );
             var tokenHandler = new JwtSecurityTokenHandler();
