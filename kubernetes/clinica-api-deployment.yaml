@@ -1,5 +1,5 @@
 ---
-apiVersion: "apps/v1"
+apiVersion: "apps/v1.1"
 kind: "Deployment"
 metadata:
   name: "clinica-api-deployment"
@@ -19,25 +19,3 @@ spec:
       containers:
       - name: "clinica-api"
         image: "gcr.io/clinica-400119/github.com/dallbia/casagrandeapi"
----
-apiVersion: "autoscaling/v2"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "clinica-api-deployment-hpa-4jck"
-  namespace: "default"
-  labels:
-    api: "clinica-api-deployment"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "clinica-api-deployment"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 5
-  metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      target:
-        type: "Utilization"
-        averageUtilization: 80
