@@ -53,7 +53,7 @@ namespace ClinicaAPI.Controllers
                 smartUser.senhaProv = null;
                 return smartUser; }
             else if (provtUser != null) {
-                smartUser.senhaHash = smartUser.senhaProv;
+                provtUser.senhaHash = provtUser.senhaProv;
                 return provtUser; }
             else return null;
 
