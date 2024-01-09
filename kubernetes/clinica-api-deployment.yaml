@@ -36,7 +36,7 @@ metadata:
                 'f:app': {}
             'f:spec':
               'f:containers':
-                'k:{"name":"clinica-api-deployment"}':
+                'k:{"name":"clinica-api"}':
                   .: {}
                   'f:env':
                     .: {}
@@ -122,7 +122,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: clinica-api-deployment
+      app: clinica-api
   strategy:
     rollingUpdate:
       maxSurge: 25%
