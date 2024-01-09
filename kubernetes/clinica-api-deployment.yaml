@@ -116,7 +116,7 @@ metadata:
       operation: Update
       subresource: status
       time: '2023-09-26T00:41:13Z'
-  name: clinica-api-deployment
+  name: clinica-api
   namespace: default
 spec:
   replicas: 1
