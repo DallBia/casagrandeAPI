@@ -66,10 +66,10 @@ namespace ClinicaAPI.Controllers
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var Provisoria = smartUser.senhaProv;
-            if (Provisoria == null)
+            var Provisoria = "";
+            if (smartUser.senhaProv != null)
             {
-                Provisoria = "";
+                Provisoria = smartUser.senhaProv;
             }
             
 
