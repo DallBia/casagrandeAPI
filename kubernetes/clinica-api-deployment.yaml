@@ -1,19 +1,19 @@
 apiVersion: "apps/v1.1"
 kind: "Deployment"
 metadata:
-  name: "clinica-api-deployment"
+  name: "clinica-api"
   namespace: "default"
   labels:
-    api: "clinica-api-deployment"
+    api: "clinica-api"
 spec:
   replicas: 3
   selector:
     matchLabels:
-      api: "clinica-api-deployment"
+      api: "clinica-api"
   template:
     metadata:
       labels:
-        api: "clinica-api-deployment"
+        api: "clinica-api"
     spec:
       containers:
       - name: "clinica-api"
