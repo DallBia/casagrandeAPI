@@ -145,8 +145,8 @@ app.UseRouting();
 
 app.UseCors("AllowMyOrigin");
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.UseHttpsRedirection();
