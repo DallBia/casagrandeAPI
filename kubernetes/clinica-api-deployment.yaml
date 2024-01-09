@@ -2,4 +2,52 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: clinica-api-deployment
-  namespace: default
+  labels:
+    app: clinica-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: clinica-api
+  template:
+    metadata:
+      labels:
+        app: clinica-api
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: TZ
+              value: America/Sao_Paulo
+          image: gcr.io/clinica-400119/github.com/dallbia/casagrandeapi
+          imagePullPolicy: IfNotPresent
+          name: clinica-api
+          ports:
+            - containerPort: 80
+              name: http-port
+              protocol: TCP
+            - containerPort: 443
+              name: https-port
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 250m
+              ephemeral-storage: 1Gi
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              ephemeral-storage: 1Gi
+              memory: 512Mi
+          securityContext:
+            capabilities:
+              drop:
+                - NET_RAW
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      tolerations:
+        - effect: NoSchedule
+          key: kubernetes.io/arch
+          operator: Equal
+          value: amd64
