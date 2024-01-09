@@ -139,7 +139,7 @@ spec:
               value: Development
             - name: TZ
               value: America/Sao_Paulo
-          image: gcr.io/clinica-400119/github.com/dallbia/casagrandeapi
+          image: gcr.io/clinica-410702/github.com/dallbia/casagrandeapi
           imagePullPolicy: IfNotPresent
           name: clinica-api
           ports:
@@ -222,9 +222,9 @@ metadata:
   namespace: default
 spec:
   allocateLoadBalancerNodePorts: true
-  clusterIP: 34.118.227.166
+  clusterIP: 34.132.214.73
   clusterIPs:
-    - 34.118.227.166
+    - 34.132.214.73
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
