@@ -2,11 +2,19 @@
 using ClinicaAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
+
+/*
+ * using ClinicaAPI.DataContext;
+using ClinicaAPI.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Exchange.WebServices.Data;
 using System.IO;
 using System.Net.Mime;
+*/
 
 namespace ClinicaAPI.Controllers
 {

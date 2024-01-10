@@ -1,4 +1,13 @@
-﻿using ClinicaAPI.Controllers;
+﻿
+using ClinicaAPI.DataContext;
+using ClinicaAPI.Models;
+using MailKit.Net.Smtp;
+using Microsoft.EntityFrameworkCore;
+using MimeKit;
+
+
+/*
+ * using ClinicaAPI.Controllers;
 using ClinicaAPI.DataContext;
 using ClinicaAPI.Models;
 using ClinicaAPI.Service.EmailService;
@@ -24,7 +33,7 @@ using System.Security.Cryptography;
 using Org.BouncyCastle.Utilities.Collections;
 using System.Collections.Generic;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-
+ */
 namespace ClinicaAPI.Service.ColaboradorService
 {
     public class ColaboradorService : IColaboradorInterface
