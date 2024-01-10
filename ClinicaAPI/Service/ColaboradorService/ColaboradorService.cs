@@ -1,13 +1,4 @@
-﻿
-using ClinicaAPI.DataContext;
-using ClinicaAPI.Models;
-using MailKit.Net.Smtp;
-using Microsoft.EntityFrameworkCore;
-using MimeKit;
-
-
-/*
- * using ClinicaAPI.Controllers;
+﻿using ClinicaAPI.Controllers;
 using ClinicaAPI.DataContext;
 using ClinicaAPI.Models;
 using ClinicaAPI.Service.EmailService;
@@ -33,7 +24,7 @@ using System.Security.Cryptography;
 using Org.BouncyCastle.Utilities.Collections;
 using System.Collections.Generic;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
- */
+
 namespace ClinicaAPI.Service.ColaboradorService
 {
     public class ColaboradorService : IColaboradorInterface
@@ -134,7 +125,7 @@ namespace ClinicaAPI.Service.ColaboradorService
         public async Task<ServiceResponse<UserModel>> AlterarSenha(string email)
         {
             ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
-            var variavel = email.Split('%');
+            var variavel = email.Split('֍');
             
             try
             {
@@ -370,7 +361,7 @@ namespace ClinicaAPI.Service.ColaboradorService
             try
             {
                 // Dividir a string usando '%' como delimitador
-                string[] partes = id.Split('%');
+                string[] partes = id.Split('֍');
 
                 // Verificar se há pelo menos três partes
                 if (partes.Length >= 3)
@@ -561,7 +552,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                             DadosList.Add(novoItem);
                         }
                         serviceResponse.Dados = DadosList.ToList();
-                        serviceResponse.Mensagem = firstY.ToString() + "%" + lastY.ToString() + "%" + seletor;
+                        serviceResponse.Mensagem = firstY.ToString() + "֍" + lastY.ToString() + "֍" + seletor;
                         serviceResponse.Sucesso = true;
                         return serviceResponse;
                     }

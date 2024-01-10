@@ -56,11 +56,7 @@ namespace ClinicaAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<ClienteModel>>>> GetCliente()
         {
-            ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
-            serviceResponse.Dados = null;
-            serviceResponse.Mensagem = "até aqui funciona";
-            serviceResponse.Sucesso = false;
-            return Ok(serviceResponse);
+            return Ok("teste por aqui funciona");
             //return Ok(await _clienteInterface.GetCliente());
         }
 
@@ -95,6 +91,7 @@ namespace ClinicaAPI.Controllers
         [HttpGet("novoId/{id}")]
         public async Task<ActionResult<ServiceResponse<List<ClienteModel>>>> GetCli(string id)
         {
+
             ServiceResponse<List<ClienteModel>> serviceResponse = await _clienteInterface.GetCli(id);
             return Ok(serviceResponse);
         }

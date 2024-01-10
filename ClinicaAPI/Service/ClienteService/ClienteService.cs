@@ -75,6 +75,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
+
         public async Task<ServiceResponse<ClienteModel>> GetClientebyId(int Id)
         {
             ServiceResponse<ClienteModel> serviceResponse = new ServiceResponse<ClienteModel>();
@@ -454,6 +455,212 @@ namespace ClinicaAPI.Service.ClienteService
             return serviceResponse;
         }
 
+        /*
+        public async Task<ServiceResponse<List<ClienteModel>>> GetCli(string id)
+        {
+            ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
+            try
+            {
+                // Dividir a string usando '%' como delimitador
+                string[] partes = id.Split('֍');
+
+                // Verificar se há pelo menos três partes
+                if (partes.Length >= 3)
+                {
+                    // Extrair valores
+                    string tipo = partes[0];
+                    string valor = partes[1];
+
+
+                    // Converter a terceira parte para inteiro (índice)
+                    if (int.TryParse(partes[2], out int indice))
+                    {
+                        //Aplicar o filtro primeiro:
+
+                        var ListaTmp = new List<ClienteModel>();
+                        var Lista = new List<ClienteModel>();
+                        List<ClienteModel> DadosList = new List<ClienteModel>();
+
+                        switch (tipo)
+                        {
+                            case "nome":
+                                if (partes[3] == "P")
+                                {
+                                    ListaTmp = _context.Clientes
+                                    .OrderBy(x => x.Id)
+                                    .Where(x => x.Nome.ToLower().Contains(valor.ToLower()))
+                                    .ToList();
+
+                                    Lista = _context.Clientes
+                                    .OrderBy(x => x.Id)
+                                    .Where(x => x.Nome.ToLower().Contains(valor.ToLower()) && x.Id >= indice)
+                                    .Take(10)
+                                    .ToList();
+                                }
+                                else
+                                {
+                                    ListaTmp = _context.Clientes
+                                    .OrderByDescending(x => x.Id)
+                                    .Where(x => x.Nome.ToLower().Contains(valor.ToLower()))
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+
+                                    Lista = _context.Clientes
+                                    .OrderByDescending(x => x.Id)
+                                    .Where(x => x.Nome.ToLower().Contains(valor.ToLower()) && x.Id <= indice)
+                                    .Take(10)
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+                                }
+
+                                break;
+
+                            case "area":
+                                if (partes[3] == "P")
+                                {
+                                    ListaTmp = _context.Clientes
+                                    .OrderBy(x => x.Id)
+                                    .Where(x => x.AreaSession.ToLower().Contains(valor.ToLower()))
+                                    .ToList();
+
+                                    Lista = _context.Clientes
+                                    .OrderBy(x => x.Id)
+                                    .Where(x => x.AreaSession.ToLower().Contains(valor.ToLower()) && x.Id >= indice)
+                                    .Take(10)
+                                    .ToList();
+                                }
+                                else
+                                {
+                                    ListaTmp = _context.Clientes
+                                    .OrderByDescending(x => x.Id)
+                                    .Where(x => x.AreaSession.ToLower().Contains(valor.ToLower()))
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+
+                                    Lista = _context.Clientes
+                                    .OrderByDescending(x => x.Id)
+                                    .Where(x => x.AreaSession.ToLower().Contains(valor.ToLower()) && x.Id <= indice)
+                                    .Take(10)
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+                                }
+
+                                break;
+                            case "mae":
+                                var perf = valor;
+                                if (partes[3] == "P")
+                                {
+                                    ListaTmp = _context.Clientes
+                                    .OrderBy(x => x.Id)
+                                    .Where(x => x.Mae == perf)
+                                    .ToList();
+
+                                    Lista = _context.Clientes
+                                    .OrderBy(x => x.Id)
+                                    .Where(x => x.Mae == perf && x.Id >= indice)
+                                    .Take(10)
+                                    .ToList();
+                                }
+                                else
+                                {
+                                    ListaTmp = _context.Clientes
+                                    .OrderByDescending(x => x.Id)
+                                    .Where(x => x.Mae == perf)
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+
+                                    Lista = _context.Clientes
+                                    .OrderByDescending(x => x.Id)
+                                    .Where(x => x.Mae == perf && x.Id <= indice)
+                                    .Take(10)
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+                                }
+
+                                break;
+                            default:
+                                if (partes[3] == "P")
+                                {
+                                    ListaTmp = _context.Clientes
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+
+                                    Lista = _context.Clientes
+                                    .OrderBy(x => x.Id)
+                                    .Where(x => x.Id >= indice)
+                                    .Take(10)
+                                    .ToList();
+                                }
+                                else
+                                {
+                                    ListaTmp = _context.Clientes
+                                    .OrderByDescending(x => x.Id)
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+
+                                    Lista = _context.Clientes
+                                    .OrderByDescending(x => x.Id)
+                                    .Where(x => x.Id <= indice)
+                                    .Take(10)
+                                    .OrderBy(x => x.Id)
+                                    .ToList();
+                                }
+
+                                break;
+                        }
+                        var firstX = ListaTmp.FirstOrDefault()?.Id;
+                        var lastX = ListaTmp.LastOrDefault()?.Id;
+                        var firstY = Lista.FirstOrDefault()?.Id;
+                        var lastY = Lista.LastOrDefault()?.Id;
+
+                        var seletor = "X";
+                        if (firstX == firstY && lastX == lastY)
+                        {
+                            seletor = "A";
+                        }
+                        else
+                        {
+                            if (firstX == firstY)
+                            {
+                                seletor = "I";
+                            }
+                            if (lastX == lastY)
+                            {
+                                seletor = "F";
+                            }
+                        }
+                        
+                        serviceResponse.Dados = Lista.ToList();
+                        serviceResponse.Mensagem = firstY.ToString() + "֍" + lastY.ToString() + "֍" + seletor;
+                        serviceResponse.Sucesso = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Dados = null;
+                        serviceResponse.Mensagem = "Problemas foram encontrados no loop mais interno";
+                        serviceResponse.Sucesso = false;
+                        return serviceResponse;
+                    }
+                }
+                else
+                {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Problemas foram encontrados no loop central";
+                    serviceResponse.Sucesso = false;
+                    return serviceResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Tratar exceções, se necessário
+                serviceResponse.Dados = null;
+                serviceResponse.Mensagem = "Problemas foram encontrados no loop externo";
+                serviceResponse.Sucesso = false;
+                return serviceResponse;
+            }
+        }*/
+
         
         public async Task<ServiceResponse<List<ClienteModel>>> GetCli(string id)
         {
@@ -461,7 +668,7 @@ namespace ClinicaAPI.Service.ClienteService
             try
             {
                 // Dividir a string usando '%' como delimitador
-                string[] partes = id.Split('-');
+                string[] partes = id.Split('֍');
 
                 // Verificar se há pelo menos três partes
                 if (partes.Length >= 3)
@@ -588,7 +795,7 @@ namespace ClinicaAPI.Service.ClienteService
                         }
                         
                         serviceResponse.Dados = Lista.ToList();
-                        serviceResponse.Mensagem = firstY.ToString() + "-" + lastY.ToString() + "-" + seletor;
+                        serviceResponse.Mensagem = firstY.ToString() + "֍" + lastY.ToString() + "֍" + seletor;
                         serviceResponse.Sucesso = true;
                         return serviceResponse;
                     }

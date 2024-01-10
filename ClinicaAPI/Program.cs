@@ -79,15 +79,25 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowMyOrigin",
-        
-        //builder => builder.WithOrigins("http://localhost:4200")
-        builder => builder.WithOrigins("http://34.123.211.220")
-                          .AllowAnyMethod()
-                          .AllowAnyHeader());
+        builder => builder
+
+                        //.WithOrigins("http://34.123.211.220")
+                        //.WithOrigins("http://34.170.174.186")  
+                        //.WithOrigins("http://34.66.160.170")
+
+                        //.WithOrigins("http://localhost:4200")
+                        .AllowAnyOrigin()                             
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()); 
+                
 });
 
 
- 
+
+
+
+        //builder => builder
+        //builder => builder.WithOrigins("http://34.170.174.186")
 
 //======================================
 
@@ -139,19 +149,11 @@ else
 }
 
 app.UseStaticFiles();
-
 app.UseRouting();
-
-
 app.UseCors("AllowMyOrigin");
-
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 app.UseHttpsRedirection();
-
 app.MapControllers();
-
 app.Run();
 

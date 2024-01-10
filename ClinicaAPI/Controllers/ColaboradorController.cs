@@ -1,9 +1,11 @@
 ﻿using ClinicaAPI.DataContext;
 using ClinicaAPI.DTO;
 using ClinicaAPI.Models;
+using ClinicaAPI.Service.ClienteService;
 using ClinicaAPI.Service.ColaboradorService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Exchange.WebServices.Data;
 
