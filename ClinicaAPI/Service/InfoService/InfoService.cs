@@ -109,6 +109,8 @@ namespace ClinicaAPI.Service.InfoService
                 _context.Infos.Update(editInfo);
                 await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Infos.ToList();
+                serviceResponse.Mensagem = "Nova informação inserida com sucesso.";
+                serviceResponse.Sucesso = true;
             }
             catch (Exception ex)
             {
