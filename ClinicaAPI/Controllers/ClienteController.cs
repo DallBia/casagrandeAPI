@@ -56,7 +56,8 @@ namespace ClinicaAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<ClienteModel>>>> GetCliente()
         {
-            return Ok(await _clienteInterface.GetCliente());
+            return Ok("até aqui funciona");
+            //return Ok(await _clienteInterface.GetCliente());
         }
 
         [HttpPost]
