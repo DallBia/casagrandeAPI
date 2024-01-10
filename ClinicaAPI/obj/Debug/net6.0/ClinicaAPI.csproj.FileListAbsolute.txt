@@ -344,3 +344,4 @@ D:\clin\ClinicaAPI\ClinicaAPI\obj\Debug\net6.0\staticwebassets\msbuild.buildMult
 D:\clin\ClinicaAPI\ClinicaAPI\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.ClinicaAPI.props
 D:\clin\ClinicaAPI\ClinicaAPI\obj\Debug\net6.0\staticwebassets.pack.json
 D:\clin\ClinicaAPI\ClinicaAPI\obj\Debug\net6.0\scopedcss\bundle\ClinicaAPI.styles.css
+D:\clin\ClinicaAPI\ClinicaAPI\obj\Debug\net6.0\ClinicaAPI.sourcelink.json

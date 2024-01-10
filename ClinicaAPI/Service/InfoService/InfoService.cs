@@ -77,8 +77,10 @@ namespace ClinicaAPI.Service.InfoService
                     serviceResponse.Dados = null;
                     serviceResponse.Sucesso = false;
                 }
+                                
 
                 serviceResponse.Dados = Info;
+
             }
             catch (Exception ex)
             {
