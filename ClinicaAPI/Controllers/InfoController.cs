@@ -18,11 +18,11 @@ namespace ClinicaAPI.Controllers
         [HttpGet("id")]
         public async Task<ActionResult<ServiceResponse<InfoModel>>> GetInfobyId(int Id)
         {
-            //ServiceResponse<InfoModel> serviceResponse = await _InfoInterface.GetInfobyId(Id);
-            ServiceResponse<List<InfoModel>> serviceResponse = new ServiceResponse<List<InfoModel>>();
+            ServiceResponse<InfoModel> serviceResponse = await _InfoInterface.GetInfobyId(Id);
+            /*ServiceResponse<List<InfoModel>> serviceResponse = new ServiceResponse<List<InfoModel>>();
             serviceResponse.Dados = null;
             serviceResponse.Mensagem = "chamada da Info funciona";
-            serviceResponse.Sucesso = true;
+            serviceResponse.Sucesso = true;*/
             return Ok(serviceResponse);
         }
         [HttpGet]
