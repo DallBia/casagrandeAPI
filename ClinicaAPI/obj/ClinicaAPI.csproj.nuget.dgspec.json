@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\clin\\ClinicaAPI\\ClinicaAPI\\ClinicaAPI.csproj": {}
+    "D:\\clin\\ClinicaApi - Copia\\ClinicaAPI\\ClinicaAPI.csproj": {}
   },
   "projects": {
-    "D:\\clin\\ClinicaAPI\\ClinicaAPI\\ClinicaAPI.csproj": {
+    "D:\\clin\\ClinicaApi - Copia\\ClinicaAPI\\ClinicaAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\clin\\ClinicaAPI\\ClinicaAPI\\ClinicaAPI.csproj",
+        "projectUniqueName": "D:\\clin\\ClinicaApi - Copia\\ClinicaAPI\\ClinicaAPI.csproj",
         "projectName": "ClinicaAPI",
-        "projectPath": "D:\\clin\\ClinicaAPI\\ClinicaAPI\\ClinicaAPI.csproj",
+        "projectPath": "D:\\clin\\ClinicaApi - Copia\\ClinicaAPI\\ClinicaAPI.csproj",
         "packagesPath": "C:\\Users\\Tiago Bianchini\\.nuget\\packages\\",
-        "outputPath": "D:\\clin\\ClinicaAPI\\ClinicaAPI\\obj\\",
+        "outputPath": "D:\\clin\\ClinicaApi - Copia\\ClinicaAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

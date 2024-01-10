@@ -273,7 +273,7 @@ public class AgendaService : IAgendaInterface
 
     public async Task<ServiceResponse<List<AgendaModel>>> GetMultiAgenda(string parametro)
     {
-        var param = parametro.Split('֍');
+        var param = parametro.Split('%');
         ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
         try
         {

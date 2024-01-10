@@ -63,7 +63,7 @@ public class AgendaController : ControllerBase
     public async Task<ActionResult<ServiceResponse<AgendaModel>>> MultiAgenda(int id, [FromBody] string par)
     {
 
-         /*var quebra = par.Split('֍');
+         /*var quebra = par.Split('%');
          var num = int.Parse(quebra[0]);*/
          ServiceResponse<List<AgendaModel>> serviceResponse = await _agendaInterface.MultiAgenda(id, par);
          return Ok(serviceResponse);

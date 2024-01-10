@@ -58,7 +58,7 @@ namespace ClinicaAPI.Controllers
                     TipoModel tmp = new TipoModel();
                     var dia = i.UploadDate.ToString();
                     tmp.id = i.Id;
-                    tmp.nome = i.FileName + "֍" + i.ContentType + "֍" + dia;
+                    tmp.nome = i.FileName + "%" + i.ContentType + "%" + dia;
                     clientes.Add(tmp);
                 }
                 serviceResponse.Dados = clientes;
@@ -71,7 +71,7 @@ namespace ClinicaAPI.Controllers
                 serviceResponse.Dados = null;
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
-                return serviceResponse;    //    5֍teste֍pdf
+                return serviceResponse;    //    5%teste%pdf
             }
         }
 
@@ -88,7 +88,7 @@ namespace ClinicaAPI.Controllers
 
                 foreach (var i in retorno)
                 {
-                    var dados = i.FileName.Split('֍');
+                    var dados = i.FileName.Split('%');
                     var dadosId = 0;
                     if (int.TryParse(dados[0], out int meuInteiro))                    {
                         dadosId = meuInteiro;
@@ -98,7 +98,7 @@ namespace ClinicaAPI.Controllers
                         TipoModel tmp = new TipoModel();
                         var dia = i.UploadDate.ToString();
                         tmp.id = i.Id;
-                        tmp.nome = i.FileName + "֍" + i.ContentType + "֍" + dia;
+                        tmp.nome = i.FileName + "%" + i.ContentType + "%" + dia;
                         resultado.Add(tmp);
                     }
                     
@@ -113,7 +113,7 @@ namespace ClinicaAPI.Controllers
                 serviceResponse.Dados = null;
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
-                return serviceResponse;    //    5֍teste֍pdf
+                return serviceResponse;    //    5%teste%pdf
             }
         }
 
@@ -130,7 +130,7 @@ namespace ClinicaAPI.Controllers
 
                 foreach (var i in retorno)
                 {
-                    var dados = i.FileName.Split('֍');
+                    var dados = i.FileName.Split('%');
                     var dadosId = 0;
                     if (int.TryParse(dados[0], out int meuInteiro))
                     {
@@ -141,7 +141,7 @@ namespace ClinicaAPI.Controllers
                         TipoModel tmp = new TipoModel();
                         var dia = i.UploadDate.ToString();
                         tmp.id = i.Id;
-                        tmp.nome = i.FileName + "֍" + i.ContentType + "֍" + dia;
+                        tmp.nome = i.FileName + "%" + i.ContentType + "%" + dia;
                         resultado.Add(tmp);
                     }
 
@@ -156,7 +156,7 @@ namespace ClinicaAPI.Controllers
                 serviceResponse.Dados = null;
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
-                return serviceResponse;    //    5֍teste֍pdf
+                return serviceResponse;    //    5%teste%pdf
             }
         }
 
@@ -174,7 +174,7 @@ namespace ClinicaAPI.Controllers
                 }
 
                 // Configuração da resposta para download
-                var nome = fileModel.FileName.Split('֍');
+                var nome = fileModel.FileName.Split('%');
 
                 var contentDisposition = new ContentDisposition
                 {

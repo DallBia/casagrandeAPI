@@ -461,7 +461,7 @@ namespace ClinicaAPI.Service.ClienteService
             try
             {
                 // Dividir a string usando '%' como delimitador
-                string[] partes = id.Split('֍');
+                string[] partes = id.Split('%');
 
                 // Verificar se há pelo menos três partes
                 if (partes.Length >= 3)
@@ -630,7 +630,7 @@ namespace ClinicaAPI.Service.ClienteService
                         }
                         
                         serviceResponse.Dados = Lista.ToList();
-                        serviceResponse.Mensagem = firstY.ToString() + "֍" + lastY.ToString() + "֍" + seletor;
+                        serviceResponse.Mensagem = firstY.ToString() + "%" + lastY.ToString() + "%" + seletor;
                         serviceResponse.Sucesso = true;
                         return serviceResponse;
                     }
@@ -667,7 +667,7 @@ namespace ClinicaAPI.Service.ClienteService
             try
             {
                 // Dividir a string usando '%' como delimitador
-                string[] partes = id.Split('֍');
+                string[] partes = id.Split('%');
 
                 // Verificar se há pelo menos três partes
                 if (partes.Length >= 3)
@@ -794,7 +794,7 @@ namespace ClinicaAPI.Service.ClienteService
                         }
                         
                         serviceResponse.Dados = Lista.ToList();
-                        serviceResponse.Mensagem = firstY.ToString() + "֍" + lastY.ToString() + "֍" + seletor;
+                        serviceResponse.Mensagem = firstY.ToString() + "%" + lastY.ToString() + "%" + seletor;
                         serviceResponse.Sucesso = true;
                         return serviceResponse;
                     }

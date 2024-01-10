@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "js+m+o+lghi0qyefMg/XGbkNtLlzrJEJ8Gbv4IGFX+oNq3SpnbqOTyaFLuD/8jJmTrXGhTg5bMh6hiGabZkTHw==",
+  "dgSpecHash": "vE5Ku5BE8CR1JCX1oGgG43x/REPEeMZEuqt5Y2gQrbjm7mCfvJvB4sjwFavrVrQnEZXUusbraZvNAT8SQUDoKw==",
   "success": true,
-  "projectFilePath": "D:\\clin\\ClinicaAPI\\ClinicaAPI\\ClinicaAPI.csproj",
+  "projectFilePath": "D:\\clin\\ClinicaApi - Copia\\ClinicaAPI\\ClinicaAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tiago Bianchini\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Tiago Bianchini\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512",
