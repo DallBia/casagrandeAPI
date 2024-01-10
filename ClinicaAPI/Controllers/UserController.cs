@@ -1,8 +1,6 @@
 ﻿using ClinicaAPI.DataContext;
 using ClinicaAPI.DTO;
 using ClinicaAPI.Models;
-using ClinicaAPI.Service.ClienteService;
-using ClinicaAPI.Service.UserService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,10 +25,10 @@ namespace ClinicaAPI.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] LoginDTO loginDetalhes)
         {
-            var user = ValidarUsuario(loginDetalhes);
+            UserModel user = ValidarUsuario(loginDetalhes);
             if (user != null)
             {
-                var tokenString = GerarTokenJWT(user);
+                string tokenString = GerarTokenJWT(user);
                 HttpContext.Response.Headers.Add("Baerer", tokenString);
                 return Ok(new { token = tokenString });
             }
@@ -42,38 +40,45 @@ namespace ClinicaAPI.Controllers
 
         private UserModel ValidarUsuario(LoginDTO loginDetalhes)
         {
-            var smartUser = _context.Users.Where(user =>
+            UserModel? smartUser = _context.Users.Where(user =>
                             user.email == loginDetalhes.Usuario && user.senhaHash == loginDetalhes.Senha
                             ).FirstOrDefault();
-            var provtUser = _context.Users.Where(user =>
+            UserModel? provtUser = _context.Users.Where(user =>
                             user.email == loginDetalhes.Usuario && user.senhaProv == loginDetalhes.Senha
                             ).FirstOrDefault();
-            
-            if (smartUser != null) {
+
+            if (smartUser != null)
+            {
                 smartUser.senhaProv = null;
-                return smartUser; }
-            else if (provtUser != null) {
+                return smartUser;
+            }
+            else if (provtUser != null)
+            {
                 provtUser.senhaHash = provtUser.senhaProv;
-                return provtUser; }
-            else return null;
+                return provtUser;
+            }
+            else
+            {
+                return null;
+            }
 
             //if (smartUser == null) return null; else return smartUser;
         }
         private string GerarTokenJWT(UserModel smartUser)
         {     //Incluir informa;óes de usuário
 
-            var _config = new ConfigurationBuilder()
+            IConfigurationRoot _config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var Provisoria = "";
+            string Provisoria = "";
             if (smartUser.senhaProv != null)
             {
                 Provisoria = smartUser.senhaProv;
             }
-            
 
-            var permClaims = new List<Claim>();
+
+            List<Claim> permClaims = new List<Claim>();
             permClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             permClaims.Add(new Claim("valid", smartUser.ativo.ToString()));
             permClaims.Add(new Claim("userid", smartUser.id.ToString()));
@@ -84,20 +89,20 @@ namespace ClinicaAPI.Controllers
             permClaims.Add(new Claim("perfil", smartUser.idPerfil.ToString()));
             permClaims.Add(new Claim("deslig", smartUser.dtDeslig.ToString()));
 
-            var issuer = _config["Jwt:Issuer"];
-            var audience = _config["Jwt:Audience"];
-            var expiry = DateTime.Now.AddMinutes(120);
-            var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
+            string? issuer = _config["Jwt:Issuer"];
+            string? audience = _config["Jwt:Audience"];
+            _ = DateTime.Now.AddMinutes(120);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            JwtSecurityToken token = new JwtSecurityToken(
                 issuer: issuer,
                 audience: audience,
                 permClaims,
                 expires: DateTime.Now.AddMinutes(120), //tempo de duração do token
                 signingCredentials: credentials
             );
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var stringToken = tokenHandler.WriteToken(token);
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            string stringToken = tokenHandler.WriteToken(token);
             return stringToken;
         }
 
@@ -165,9 +170,9 @@ namespace ClinicaAPI.Controllers
                         User.telFixo = editUser.telFixo;
                     }
                 }
-                _context.Users.Update(User);
-                await _context.SaveChangesAsync();
-                foreach (var user in serviceResponse.Dados)
+                _ = _context.Users.Update(User);
+                _ = await _context.SaveChangesAsync();
+                foreach (UserModel user in serviceResponse.Dados)
                 {
 
                     user.senhaHash = "secreta";
@@ -198,7 +203,7 @@ namespace ClinicaAPI.Controllers
                 }
                 else
                 {
-                    foreach (var user in serviceResponse.Dados)
+                    foreach (UserModel user in serviceResponse.Dados)
                     {
                         // Modifique o valor da propriedade SenhaHash aqui, se necessário
                         user.senhaHash = "secreta";
@@ -230,8 +235,8 @@ namespace ClinicaAPI.Controllers
                     serviceResponse.Sucesso = false;
                     return serviceResponse;
                 }
-                _context.Add(novoUser);
-                await _context.SaveChangesAsync();
+                _ = _context.Add(novoUser);
+                _ = await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Users.ToList();
                 if (serviceResponse.Dados.Count == 0)
                 {

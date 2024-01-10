@@ -90,7 +90,6 @@ namespace ClinicaAPI.Controllers
         [HttpGet("novoId/{id}")]
         public async Task<ActionResult<ServiceResponse<List<ClienteModel>>>> GetCli(string id)
         {
-
             ServiceResponse<List<ClienteModel>> serviceResponse = await _clienteInterface.GetCli(id);
             return Ok(serviceResponse);
         }
