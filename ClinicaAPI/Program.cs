@@ -81,7 +81,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowMyOrigin",
         builder => builder
         
-                        .WithOrigins("http://www.clincasagrande.com.br/")
+                        //.WithOrigins("http://www.clincasagrande.com.br/")
                         //.WithOrigins("http://34.170.174.186")  
                         //.WithOrigins("http://34.66.160.170")
                         .WithOrigins("http://34.123.211.220")
@@ -93,8 +93,6 @@ builder.Services.AddCors(options =>
 
 
 
-        //builder => builder
-        //builder => builder.WithOrigins("http://34.170.174.186")
 
 //======================================
 
@@ -124,7 +122,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 //====================================
 
 builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailConfig"));
-
 
 var app = builder.Build();
 

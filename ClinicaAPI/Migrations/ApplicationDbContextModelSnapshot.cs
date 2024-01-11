@@ -198,6 +198,9 @@ namespace ClinicaAPI.Migrations
                     b.Property<string>("PaiTelFixo")
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("ProxSes")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("RespFinanc")
                         .HasColumnType("integer");
 
@@ -366,8 +369,8 @@ namespace ClinicaAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<DateOnly>("data")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("data")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("descricao")
                         .IsRequired()
@@ -560,14 +563,14 @@ namespace ClinicaAPI.Migrations
                     b.Property<string>("cpf")
                         .HasColumnType("text");
 
-                    b.Property<DateOnly>("dtAdmis")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("dtAdmis")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateOnly?>("dtDeslig")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("dtDeslig")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateOnly>("dtNasc")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("dtNasc")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("email")
                         .IsRequired()
@@ -613,8 +616,8 @@ namespace ClinicaAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<DateOnly>("data")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("data")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("nome")
                         .IsRequired()

@@ -23,6 +23,7 @@ namespace ClinicaAPI.Models
         public string? TelComercial { get; set; }
         public string Email { get; set; }
         public string Endereco { get; set; }
+        public DateTime? ProxSes { get; set; }
 
         //DADOS DA MÃE:
         public string? Mae { get; set; }

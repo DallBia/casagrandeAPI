@@ -88,9 +88,10 @@ namespace ClinicaAPI.Controllers
 
                 foreach (var i in retorno)
                 {
-                    var dados = i.FileName.Split('֍');
+                    var dados = i.FileName.Split('%');
                     var dadosId = 0;
-                    if (int.TryParse(dados[0], out int meuInteiro))                    {
+                    if (int.TryParse(dados[0], out int meuInteiro))                    
+                    {
                         dadosId = meuInteiro;
                     }
                     if (dadosId == id && dados[1] == "C")
@@ -98,7 +99,7 @@ namespace ClinicaAPI.Controllers
                         TipoModel tmp = new TipoModel();
                         var dia = i.UploadDate.ToString();
                         tmp.id = i.Id;
-                        tmp.nome = i.FileName + "֍" + i.ContentType + "֍" + dia;
+                        tmp.nome = i.FileName + "%" + i.ContentType + "%" + dia;
                         resultado.Add(tmp);
                     }
                     
@@ -130,7 +131,7 @@ namespace ClinicaAPI.Controllers
 
                 foreach (var i in retorno)
                 {
-                    var dados = i.FileName.Split('֍');
+                    var dados = i.FileName.Split('%');
                     var dadosId = 0;
                     if (int.TryParse(dados[0], out int meuInteiro))
                     {
@@ -141,7 +142,7 @@ namespace ClinicaAPI.Controllers
                         TipoModel tmp = new TipoModel();
                         var dia = i.UploadDate.ToString();
                         tmp.id = i.Id;
-                        tmp.nome = i.FileName + "֍" + i.ContentType + "֍" + dia;
+                        tmp.nome = i.FileName + "%" + i.ContentType + "%" + dia;
                         resultado.Add(tmp);
                     }
 

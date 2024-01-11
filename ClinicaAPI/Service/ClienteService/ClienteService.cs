@@ -20,6 +20,8 @@ namespace ClinicaAPI.Service.ClienteService
 
         //==============================//
 
+
+        //[HttpPut("Ativa")]
         public async Task<ServiceResponse<List<ClienteModel>>> ActivateCliente(int Id)
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
@@ -48,7 +50,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        //[HttpPost]
         public async Task<ServiceResponse<List<ClienteModel>>> CreateCliente(ClienteModel novoCliente)
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
@@ -80,7 +82,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        //[HttpGet("id/{id}")]
         public async Task<ServiceResponse<ClienteModel>> GetClientebyId(int Id)
         {
             ServiceResponse<ClienteModel> serviceResponse = new ServiceResponse<ClienteModel>();
@@ -105,7 +107,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        //[HttpGet]
         public async Task<ServiceResponse<List<ClienteModel>>> GetCliente()
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
@@ -131,7 +133,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        //[HttpPut("Editar")]
         public async Task<ServiceResponse<List<ClienteModel>>> UpdateCliente(ClienteModel editCliente)
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
@@ -161,7 +163,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        //[HttpGet("Email")]
         public async Task<ServiceResponse<ClienteModel>> GetClientebyEmail(string Email)
         {
             ServiceResponse<ClienteModel> serviceResponse = new ServiceResponse<ClienteModel>();
@@ -189,7 +191,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        //[HttpGet("Area")]
         public async Task<ServiceResponse<List<ClienteModel>>> GetClientebyArea(string Area)
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
@@ -221,7 +223,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        // [HttpDelete]
         public async Task<ServiceResponse<List<ClienteModel>>> DeleteCliente(int Id)
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
@@ -252,7 +254,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        //[HttpGet("Nome")]
         public async Task<ServiceResponse<List<ClienteModel>>> GetClientebyNome(string atr, string par, string ret)
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
@@ -391,7 +393,7 @@ namespace ClinicaAPI.Service.ClienteService
         }
 
 
-
+        //[HttpGet("Agenda/{tipo}")]
         public async Task<ServiceResponse<List<TipoModel>>> GetClientebyAgenda(string tipo)
         {
             ServiceResponse<List<TipoModel>> serviceResponse = new ServiceResponse<List<TipoModel>>();
@@ -442,7 +444,7 @@ namespace ClinicaAPI.Service.ClienteService
             return serviceResponse;
         }
 
-                
+        //[HttpGet("novoId/{id}")]
         public async Task<ServiceResponse<List<ClienteModel>>> GetCli(string id)
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = new ServiceResponse<List<ClienteModel>>();
@@ -536,6 +538,7 @@ namespace ClinicaAPI.Service.ClienteService
                             .ToList();
                         }
                         
+                        var total = ListaTmp.Count;
                         var firstX = ListaTmp.FirstOrDefault()?.Id;
                         var lastX = ListaTmp.LastOrDefault()?.Id;
                         var firstY = Lista.FirstOrDefault()?.Id;
@@ -559,7 +562,7 @@ namespace ClinicaAPI.Service.ClienteService
                         }
                         
                         serviceResponse.Dados = Lista.ToList();
-                        serviceResponse.Mensagem = firstY.ToString() + "%" + lastY.ToString() + "%" + seletor;
+                        serviceResponse.Mensagem = firstY.ToString() + "-" + lastY.ToString() + "-" + seletor + "-" + total.ToString();
                         serviceResponse.Sucesso = true;
                         return serviceResponse;
                     }
