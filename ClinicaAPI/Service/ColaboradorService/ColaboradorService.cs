@@ -250,18 +250,43 @@ namespace ClinicaAPI.Service.ColaboradorService
                     {
                         User.idPerfil = editUser.idPerfil;
                     }
+
                     DateOnly dataMinima = new DateOnly(1900, 1, 1);
-                    if (editUser.dtDeslig != dataMinima)
+                    if (editUser.dtDeslig != null)
                     {
-                        User.dtDeslig = editUser.dtDeslig;
+                        DateTime dMaxima = (DateTime)editUser.dtDeslig;
+                        int ano = dMaxima.Year;
+                        int mes = dMaxima.Month;
+                        int dia = dMaxima.Day;
+                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        if (dataMax != dataMinima)
+                        {
+                            User.dtDeslig = editUser.dtDeslig;
+                        }
                     }
-                    if (editUser.dtNasc != dataMinima)
+                    if (editUser.dtNasc != null)
                     {
-                        User.dtNasc = editUser.dtNasc;
+                        DateTime dMaxima = (DateTime)editUser.dtNasc;
+                        int ano = dMaxima.Year;
+                        int mes = dMaxima.Month;
+                        int dia = dMaxima.Day;
+                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        if (dataMax != dataMinima)
+                        {
+                            User.dtNasc = editUser.dtNasc;
+                        }
                     }
-                    if (editUser.dtAdmis != dataMinima)
+                    if (editUser.dtAdmis != null)
                     {
-                        User.dtAdmis = editUser.dtAdmis;
+                        DateTime dMaxima = (DateTime)editUser.dtAdmis;
+                        int ano = dMaxima.Year;
+                        int mes = dMaxima.Month;
+                        int dia = dMaxima.Day;
+                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        if (dataMax != dataMinima)
+                        {
+                            User.dtNasc = editUser.dtAdmis;
+                        }
                     }
                     if (editUser.email != "")
                     {
@@ -297,7 +322,7 @@ namespace ClinicaAPI.Service.ColaboradorService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<TipoModel>>> GetColabbyAgenda()
+        public async Task<ServiceResponse<List<TipoModel>>> GetColabbyAgenda(string tipo)
         {
             ServiceResponse<List<TipoModel>> serviceResponse = new ServiceResponse<List<TipoModel>>();
             var DadosList = new List<TipoModel>();
@@ -308,10 +333,28 @@ namespace ClinicaAPI.Service.ColaboradorService
                     .ToList();
                 foreach (var T in Lista)
                 {
+                    int id;
+                    string campo;
+
+                    switch (tipo)
+                    {
+                        case ("nome"):
+                            id = T.id;
+                            campo = T.nome;
+                            break;
+                        case ("area"):
+                            id = T.id;
+                            campo = T.nome + '%' + T.areaSession;
+                            break;
+                        default:
+                            id = T.id;
+                            campo = T.nome + '%' + T.dtNasc.ToString("o");
+                            break;
+                    }
                     TipoModel novoItem = new TipoModel
                     {
-                        id = T.id,
-                        nome = T.nome
+                        id = id,
+                        nome = campo
                     };
 
                     DadosList.Add(novoItem);

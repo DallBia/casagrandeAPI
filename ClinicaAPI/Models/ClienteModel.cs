@@ -12,7 +12,7 @@ namespace ClinicaAPI.Models
         public DateTime DtInclusao { get; set; } = DateTime.Now.ToLocalTime();
         public bool SaiSozinho { get; set; } = false;
         public RespFinEnum RespFinanc { get; set; }
-        public DateOnly DtNascim { get; set; }
+        public DateTime DtNascim { get; set; }
         public DateTime ClienteDesde { get; set; } = DateTime.Now.ToLocalTime();
         public bool Ativo { get; set; } = true;
         public string? AreaSession { get; set; }

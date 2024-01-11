@@ -99,9 +99,9 @@ namespace ClinicaAPI.Controllers
         }
 
         [HttpGet("Agenda")]
-        public async Task<ActionResult<ServiceResponse<List<TipoModel>>>> GetColaboradorbyAgenda()
+        public async Task<ActionResult<ServiceResponse<List<TipoModel>>>> GetColaboradorbyAgenda(string tipo)
         {
-            ServiceResponse<List<TipoModel>> serviceResponse = await _colaboradorInterface.GetColabbyAgenda();
+            ServiceResponse<List<TipoModel>> serviceResponse = await _colaboradorInterface.GetColabbyAgenda(tipo);
             return Ok(serviceResponse);
         }
 

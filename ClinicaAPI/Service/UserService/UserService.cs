@@ -108,13 +108,41 @@ namespace ClinicaAPI.Service.UserService
                         User.idPerfil = editUser.idPerfil;
                     }
                     DateOnly dataMinima = new DateOnly(1900, 1, 1);
-                    if (editUser.dtDeslig != dataMinima)
+                    if (editUser.dtDeslig != null)
                     {
-                        User.dtDeslig = editUser.dtDeslig;
+                        DateTime dMaxima = (DateTime)editUser.dtDeslig;
+                        int ano = dMaxima.Year;
+                        int mes = dMaxima.Month;
+                        int dia = dMaxima.Day;
+                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        if (dataMax != dataMinima)
+                        {
+                            User.dtDeslig = editUser.dtDeslig;
+                        }
                     }
-                    if (editUser.dtNasc != dataMinima)
+                    if (editUser.dtNasc != null)
                     {
-                        User.dtNasc = editUser.dtNasc;
+                        DateTime dMaxima = (DateTime)editUser.dtNasc;
+                        int ano = dMaxima.Year;
+                        int mes = dMaxima.Month;
+                        int dia = dMaxima.Day;
+                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        if (dataMax != dataMinima)
+                        {
+                            User.dtNasc = editUser.dtNasc;
+                        }
+                    }
+                    if (editUser.dtAdmis != null)
+                    {
+                        DateTime dMaxima = (DateTime)editUser.dtAdmis;
+                        int ano = dMaxima.Year;
+                        int mes = dMaxima.Month;
+                        int dia = dMaxima.Day;
+                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        if (dataMax != dataMinima)
+                        {
+                            User.dtNasc = editUser.dtAdmis;
+                        }
                     }
                     if (editUser.email != null)
                     {

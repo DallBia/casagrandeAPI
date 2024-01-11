@@ -8,7 +8,7 @@ namespace ClinicaAPI.Models
         public int id { get; set; }
         public string nome { get; set; }
         public double valor { get; set; }
-        public DateOnly data { get; set; }
+        public DateTime data { get; set; }
         public Boolean selecionada { get; set; }
 
     }

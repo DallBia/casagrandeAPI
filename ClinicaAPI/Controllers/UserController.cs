@@ -139,7 +139,7 @@ namespace ClinicaAPI.Controllers
                     {
                         User.idPerfil = editUser.idPerfil;
                     }
-                    DateOnly dataMinima = new DateOnly(1900, 1, 1);
+                    DateTime dataMinima = new DateTime(1900, 1, 1);
                     if (editUser.dtDeslig != dataMinima)
                     {
                         User.dtDeslig = editUser.dtDeslig;
