@@ -94,8 +94,6 @@ builder.Services.AddCors(options =>
 
 
 
-
-
         //builder => builder
         //builder => builder.WithOrigins("http://34.170.174.186")
 
