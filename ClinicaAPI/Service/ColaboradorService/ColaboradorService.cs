@@ -1,15 +1,12 @@
 ﻿using ClinicaAPI.Controllers;
 using ClinicaAPI.DataContext;
 using ClinicaAPI.Models;
-using ClinicaAPI.Service.EmailService;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
+
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
-
+/*
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
@@ -24,6 +21,13 @@ using System.Security.Cryptography;
 using Org.BouncyCastle.Utilities.Collections;
 using System.Collections.Generic;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using ClinicaAPI.Service.EmailService;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
+*/
+
 
 namespace ClinicaAPI.Service.ColaboradorService
 {
@@ -71,7 +75,7 @@ namespace ClinicaAPI.Service.ColaboradorService
    + novoColaborador.email + ".</span></strong></p>"
    + "<p>Sua senha <b>provisória</b> é <strong><span style='color: blue; font-size: 18px;'>"
    + novoColaborador.senhaHash + "</span></strong></p>"
-   + "<p>Acesse o link do <a href='http://35.232.35.159'>aplicativo</a> e <b>altere a senha. </b>"
+   + "<p>Acesse o link do <a href='http://34.123.211.220'>aplicativo</a> e <b>altere a senha. </b>"
     + "Coloque uma senha que seja fácil para você decorar.</p>"
     + "<p>Para sua comodidade, salve o link na sua guia de marcadores favoritos.</p>"
     + "Depois, vá na guia <b>Cadastro de Equipe</b>, selecione seu nome através do filtro e "
@@ -122,10 +126,13 @@ namespace ClinicaAPI.Service.ColaboradorService
             return serviceResponse;
         }
 
+
+
+        //[HttpPost("Altera")]
         public async Task<ServiceResponse<UserModel>> AlterarSenha(string email)
         {
             ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
-            var variavel = email.Split('֍');
+            var variavel = email.Split('|');
             
             try
             {
@@ -146,26 +153,6 @@ namespace ClinicaAPI.Service.ColaboradorService
                 try
                 {
                     var enviar = new MimeMessage();
-
-
-                    enviar.From.Add(MailboxAddress.Parse(_configuration["EmailConfig:FromEmail"]));
-                    enviar.Subject = emailRequest.Assunto;
-                    enviar.Body = new TextPart("html")
-                    {
-                        Text = emailRequest.Corpo
-                    };
-                    using var smtp = new SmtpClient();
-
-                    smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                    var usuario = _configuration["EmailConfig:FromEmail"];
-                    //var usuario = "966741631742-sjsrqt2f8251f7qc0b48i2qcnrsi7tk2.apps.googleusercontent.com";
-                    var hash = "sknr xkhy mjzf twul";
-                    //var hash = _configuration["EmailConfig:Password"];
-                    enviar.To.Add(MailboxAddress.Parse(emailRequest.Destinatario));
-                    smtp.Authenticate(usuario, hash);
-                    smtp.Send(enviar);
-                    smtp.Disconnect(true);
-
                     UserModel User = _context.Users.AsNoTracking().FirstOrDefault(x => x.email == variavel[0]);
                     if (User == null)
                     {
@@ -178,14 +165,35 @@ namespace ClinicaAPI.Service.ColaboradorService
                         User.senhaProv = variavel[2];
                         _context.Users.Update(User);
                         await _context.SaveChangesAsync();
-                        serviceResponse.Mensagem = "Nenhum dado encontrado.";
+                        serviceResponse.Mensagem = "Usuário encontrado.";
                         serviceResponse.Dados = null;
-                        serviceResponse.Sucesso = false;
+                        serviceResponse.Sucesso = true;
                     }
+                    if (serviceResponse.Sucesso == true)
+                    {
+                        enviar.From.Add(MailboxAddress.Parse(_configuration["EmailConfig:FromEmail"]));
+                        enviar.Subject = emailRequest.Assunto;
+                        enviar.Body = new TextPart("html")
+                        {
+                            Text = emailRequest.Corpo
+                        };
+                        using var smtp = new SmtpClient();
 
-                    serviceResponse.Mensagem = "mensagem enviada";
-                    serviceResponse.Sucesso = true;
-                    serviceResponse.Dados = null;
+                        smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                        var usuario = _configuration["EmailConfig:FromEmail"];
+                        //var usuario = "966741631742-sjsrqt2f8251f7qc0b48i2qcnrsi7tk2.apps.googleusercontent.com";
+                        var hash = "sknr xkhy mjzf twul";
+                        //var hash = _configuration["EmailConfig:Password"];
+                        enviar.To.Add(MailboxAddress.Parse(emailRequest.Destinatario));
+                        smtp.Authenticate(usuario, hash);
+                        smtp.Send(enviar);
+                        smtp.Disconnect(true);    
+
+                        serviceResponse.Mensagem = "mensagem enviada";
+                        serviceResponse.Sucesso = true;
+                        serviceResponse.Dados = null;
+                    }
+                    
                 }
                 catch
                 {
@@ -246,7 +254,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                         //User.foto = await _googleDriveService.UploadImageToGoogleDrive(editUser.foto, editUser.id);
 
                     }
-                    if (editUser.idPerfil != 0)
+                    if (editUser.idPerfil < 4)
                     {
                         User.idPerfil = editUser.idPerfil;
                     }
@@ -266,7 +274,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                     }
                     if (editUser.dtNasc != null)
                     {
-                        DateTime dMaxima = (DateTime)editUser.dtNasc;
+                        DateTime dMaxima = editUser.dtNasc;
                         int ano = dMaxima.Year;
                         int mes = dMaxima.Month;
                         int dia = dMaxima.Day;
@@ -278,14 +286,14 @@ namespace ClinicaAPI.Service.ColaboradorService
                     }
                     if (editUser.dtAdmis != null)
                     {
-                        DateTime dMaxima = (DateTime)editUser.dtAdmis;
+                        DateTime dMaxima = editUser.dtAdmis;
                         int ano = dMaxima.Year;
                         int mes = dMaxima.Month;
                         int dia = dMaxima.Day;
                         DateOnly dataMax = new DateOnly(ano, mes, dia);
                         if (dataMax != dataMinima)
                         {
-                            User.dtNasc = editUser.dtAdmis;
+                            User.dtAdmis = editUser.dtAdmis;
                         }
                     }
                     if (editUser.email != "")
@@ -299,6 +307,10 @@ namespace ClinicaAPI.Service.ColaboradorService
                     if (editUser.rg != "")
                     {
                         User.rg = editUser.rg;
+                    }
+                    if (editUser.areaSession != "")
+                    {
+                        User.areaSession = editUser.areaSession;
                     }
                     if (editUser.telFixo != "")
                     {
@@ -398,13 +410,17 @@ namespace ClinicaAPI.Service.ColaboradorService
             return serviceResponse;
         }
 
+
+
+
+        //[HttpGet("novoId/{id}")]
         public async Task<ServiceResponse<List<UserModel>>> GetColab(string id)
         {
             ServiceResponse<List<UserModel>> serviceResponse = new ServiceResponse<List<UserModel>>();
             try
             {
-                // Dividir a string usando '%' como delimitador
-                string[] partes = id.Split('֍');
+                // Dividir a string usando '|' como delimitador
+                string[] partes = id.Split('|');
 
                 // Verificar se há pelo menos três partes
                 if (partes.Length >= 3)
@@ -589,13 +605,14 @@ namespace ClinicaAPI.Service.ColaboradorService
                                 idPerfil = T.idPerfil,
                                 ativo = T.ativo,
                                 areaSession = T.areaSession,
-                                senhaHash = "secreta"
+                                senhaHash = "secreta",
+                                senhaProv = "secreta"
                             };
 
                             DadosList.Add(novoItem);
                         }
                         serviceResponse.Dados = DadosList.ToList();
-                        serviceResponse.Mensagem = firstY.ToString() + "֍" + lastY.ToString() + "֍" + seletor;
+                        serviceResponse.Mensagem = firstY.ToString() + "|" + lastY.ToString() + "|" + seletor + "|" + ListaTmp.Count;
                         serviceResponse.Sucesso = true;
                         return serviceResponse;
                     }

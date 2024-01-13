@@ -1,12 +1,12 @@
 ﻿using ClinicaAPI.DataContext;
 using ClinicaAPI.DTO;
 using ClinicaAPI.Models;
-using ClinicaAPI.Service.ClienteService;
+using Microsoft.EntityFrameworkCore;
 using ClinicaAPI.Service.ColaboradorService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.EntityFrameworkCore;
+using ClinicaAPI.Service.ClienteService;
 using Microsoft.Exchange.WebServices.Data;
 
 
@@ -98,7 +98,7 @@ namespace ClinicaAPI.Controllers
             return Ok(serviceResponse);
         }
 
-        [HttpGet("Agenda")]
+        [HttpGet("Agenda/{tipo}")]
         public async Task<ActionResult<ServiceResponse<List<TipoModel>>>> GetColaboradorbyAgenda(string tipo)
         {
             ServiceResponse<List<TipoModel>> serviceResponse = await _colaboradorInterface.GetColabbyAgenda(tipo);

@@ -49,67 +49,25 @@ public class AgendaService : IAgendaInterface
     {
         ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
 
-        AgendaModel agendaExistente = _context.Agendas
-                .FirstOrDefault(x => x.diaI <= novaAgenda.diaI
-                                    && x.diaF >= novaAgenda.diaF
-                                    && x.horario == novaAgenda.horario
-                                    && x.sala == novaAgenda.sala
-                                    );
-        if (agendaExistente != null)
+        try
         {
-            try
-            {                
-                agendaExistente.idCliente = novaAgenda.idCliente;
-                agendaExistente.idFuncAlt = novaAgenda.idFuncAlt;
-                agendaExistente.nome = novaAgenda.nome;
-                agendaExistente.dtAlt = DateTime.UtcNow;
-                agendaExistente.horario = novaAgenda.horario;
-                agendaExistente.sala = novaAgenda.sala;
-                agendaExistente.unidade = novaAgenda.unidade;
-                agendaExistente.diaI = novaAgenda.diaI;
-                agendaExistente.diaF = novaAgenda.diaF;
-                agendaExistente.repeticao = novaAgenda.repeticao;
-                agendaExistente.subtitulo = novaAgenda.subtitulo;
-                agendaExistente.status = novaAgenda.status;
-                agendaExistente.historico = novaAgenda.historico;
-                agendaExistente.obs = novaAgenda.obs;
-                agendaExistente.valor = novaAgenda.valor;
-                agendaExistente.profis = novaAgenda.profis;
-
-                _context.Agendas.Update(agendaExistente);
-                await _context.SaveChangesAsync();
-                var diaI = novaAgenda.diaI;
-                var diaF = novaAgenda.diaF;
-                List<AgendaModel> agendas = await _context.Agendas
-                    .Where(a => a.diaI <= diaI && a.diaF >= diaF)
-                    .ToListAsync();
-                serviceResponse.Dados = agendas;
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Mensagem = ex.Message;
-                serviceResponse.Sucesso = false;
-            }
+            _context.Agendas.Add(novaAgenda);
+            await _context.SaveChangesAsync();
+            var diaI = novaAgenda.diaI;
+            var diaF = novaAgenda.diaF;
+            List<AgendaModel> agendas = await _context.Agendas
+                .Where(a => a.diaI <= diaI && a.diaF >= diaF)
+                .ToListAsync();
+            serviceResponse.Dados = agendas;
+            serviceResponse.Mensagem = "Agenda Salva";
+            serviceResponse.Sucesso = true;
         }
-        else
+        catch (Exception ex)
         {
-            try
-            {
-                _context.Agendas.Add(novaAgenda);
-                await _context.SaveChangesAsync();
-                var diaI = novaAgenda.diaI;
-                var diaF = novaAgenda.diaF;
-                List<AgendaModel> agendas = await _context.Agendas
-                    .Where(a => a.diaI <= diaI && a.diaF >= diaF)
-                    .ToListAsync();
-                serviceResponse.Dados = agendas;
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Mensagem = ex.Message;
-                serviceResponse.Sucesso = false;
-            }
-        }      
+            serviceResponse.Mensagem = ex.Message;
+            serviceResponse.Sucesso = false;
+        }
+              
         return serviceResponse;
     }
 
@@ -136,9 +94,18 @@ public class AgendaService : IAgendaInterface
              agendaExistente.horario = agendaAtualizada.horario;
              agendaExistente.sala = agendaAtualizada.sala;
              agendaExistente.unidade = agendaAtualizada.unidade;
-             agendaExistente.diaI = agendaAtualizada.diaI;
+                
+            if(agendaAtualizada.diaI <= agendaAtualizada.diaF)
+            {
+                agendaExistente.diaI = agendaAtualizada.diaI;
+            }            
              agendaExistente.diaF = agendaAtualizada.diaF;
-             agendaExistente.repeticao = agendaAtualizada.repeticao;
+
+            if (agendaAtualizada.repeticao != ReptEnum.Cancelar)
+            {
+                agendaExistente.repeticao = agendaAtualizada.repeticao;
+            }
+             
              agendaExistente.subtitulo = agendaAtualizada.subtitulo;
              agendaExistente.status = agendaAtualizada.status;
              agendaExistente.historico = agendaAtualizada.historico;
@@ -273,7 +240,7 @@ public class AgendaService : IAgendaInterface
 
     public async Task<ServiceResponse<List<AgendaModel>>> GetMultiAgenda(string parametro)
     {
-        var param = parametro.Split('֍');
+        var param = parametro.Split('|');
         ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
         try
         {
@@ -347,7 +314,7 @@ public class AgendaService : IAgendaInterface
                             i.nome = "";
                             i.profis = "";
                             i.repeticao = 0;
-                            i.status = 0;
+                            i.status = (StatusEnum)0;
                             i.subtitulo = "";
                         }
                         _context.Agendas.UpdateRange(agendas);
@@ -381,7 +348,7 @@ public class AgendaService : IAgendaInterface
                             i.nome = "";
                             i.profis = "";
                             i.repeticao = 0;
-                            i.status = 0;
+                            i.status = (StatusEnum)0;
                             i.subtitulo = "";
                         }
                         _context.Agendas.UpdateRange(agendas2);
@@ -392,11 +359,11 @@ public class AgendaService : IAgendaInterface
                         serviceResponse.Mensagem = agendas2.Count + " substituições feitas";
                     }
                     break;
-                default:
+                case 3:
                     List<AgendaModel> agendas3 = await _context.Agendas
-                                        .Where(a => a.multi == parametro
-                                        && a.status == (StatusEnum)6)
-                                        .ToListAsync();
+                    .Where(a => a.multi == parametro
+                    && a.status == (StatusEnum)2)
+                    .ToListAsync();
 
                     if (agendas3.Count == 0)
                     {
@@ -407,14 +374,40 @@ public class AgendaService : IAgendaInterface
                     else
                     {
                         foreach (AgendaModel i in agendas3)
-                        {                          
-                            i.status = (StatusEnum)2;
+                        {
+                            i.status = (StatusEnum)6;
                         }
                         _context.Agendas.UpdateRange(agendas3);
                         await _context.SaveChangesAsync();
+
                         serviceResponse.Dados = _context.Agendas.ToList();
                         serviceResponse.Sucesso = true;
                         serviceResponse.Mensagem = agendas3.Count + " substituições feitas";
+                    }
+                    break;
+                default:
+                    List<AgendaModel> agendas10 = await _context.Agendas
+                                        .Where(a => a.multi == parametro
+                                        && a.status == (StatusEnum)6)
+                                        .ToListAsync();
+
+                    if (agendas10.Count == 0)
+                    {
+                        serviceResponse.Mensagem = "Nenhum dado encontrado.";
+                        serviceResponse.Dados = agendas10;
+                        serviceResponse.Mensagem = agendas10.Count + " substituições feitas";
+                    }
+                    else
+                    {
+                        foreach (AgendaModel i in agendas10)
+                        {                          
+                            i.status = (StatusEnum)2;
+                        }
+                        _context.Agendas.UpdateRange(agendas10);
+                        await _context.SaveChangesAsync();
+                        serviceResponse.Dados = _context.Agendas.ToList();
+                        serviceResponse.Sucesso = true;
+                        serviceResponse.Mensagem = agendas10.Count + " substituições feitas";
                     }
                     break;
             }

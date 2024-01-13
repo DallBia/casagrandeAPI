@@ -2,6 +2,7 @@
 using ClinicaAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using ClinicaAPI.Service.EmailService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicaAPI.Service.UserService
 {
@@ -13,6 +14,8 @@ namespace ClinicaAPI.Service.UserService
         {
             _context = context;
         }
+
+
 
         public async Task<ServiceResponse<List<UserModel>>> CreateUser(UserModel novoUser)
         {
@@ -44,6 +47,9 @@ namespace ClinicaAPI.Service.UserService
             return serviceResponse;
         }
 
+
+
+
         public async Task<ServiceResponse<UserModel>> GetUserbyId(int Id)
         {
             ServiceResponse<UserModel> serviceResponse = new ServiceResponse<UserModel>();
@@ -70,8 +76,9 @@ namespace ClinicaAPI.Service.UserService
             return serviceResponse;
         }
 
-     
 
+
+        //[HttpPut("Editar")]
         public async Task<ServiceResponse<List<UserModel>>> UpdateUser(UserModel editUser)
         {
             ServiceResponse<List<UserModel>> serviceResponse = new ServiceResponse<List<UserModel>>();
@@ -90,6 +97,10 @@ namespace ClinicaAPI.Service.UserService
                     if (editUser.nome != null)
                     {
                         User.nome = editUser.nome;
+                    }
+                    if (editUser.foto != null)
+                    {
+                        User.foto = editUser.foto;
                     }
                     if (editUser.celular != null)
                     {
@@ -110,11 +121,20 @@ namespace ClinicaAPI.Service.UserService
                     DateOnly dataMinima = new DateOnly(1900, 1, 1);
                     if (editUser.dtDeslig != null)
                     {
-                        DateTime dMaxima = (DateTime)editUser.dtDeslig;
-                        int ano = dMaxima.Year;
-                        int mes = dMaxima.Month;
-                        int dia = dMaxima.Day;
-                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        DateOnly dataMax = new DateOnly(1900, 01, 01);
+                        try
+                        {
+                            DateTime dMaxima = (DateTime)editUser.dtDeslig;
+                            int ano = dMaxima.Year;
+                            int mes = dMaxima.Month;
+                            int dia = dMaxima.Day;
+                            dataMax = new DateOnly(ano, mes, dia);
+                        }
+                        catch
+                        {
+
+                        }
+                        
                         if (dataMax != dataMinima)
                         {
                             User.dtDeslig = editUser.dtDeslig;
@@ -122,11 +142,20 @@ namespace ClinicaAPI.Service.UserService
                     }
                     if (editUser.dtNasc != null)
                     {
-                        DateTime dMaxima = (DateTime)editUser.dtNasc;
-                        int ano = dMaxima.Year;
-                        int mes = dMaxima.Month;
-                        int dia = dMaxima.Day;
-                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        DateOnly dataMax = new DateOnly(1900, 1, 1);
+                        try
+                        {
+                            DateTime dMaxima = (DateTime)editUser.dtNasc;
+                            int ano = dMaxima.Year;
+                            int mes = dMaxima.Month;
+                            int dia = dMaxima.Day;
+                            dataMax = new DateOnly(ano, mes, dia);
+                        }
+                        catch
+                        {
+
+                        }
+                        
                         if (dataMax != dataMinima)
                         {
                             User.dtNasc = editUser.dtNasc;
@@ -134,14 +163,20 @@ namespace ClinicaAPI.Service.UserService
                     }
                     if (editUser.dtAdmis != null)
                     {
-                        DateTime dMaxima = (DateTime)editUser.dtAdmis;
-                        int ano = dMaxima.Year;
-                        int mes = dMaxima.Month;
-                        int dia = dMaxima.Day;
-                        DateOnly dataMax = new DateOnly(ano, mes, dia);
+                        DateOnly dataMax = new DateOnly(1900, 1, 1);
+                        try
+                        {
+                            DateTime dMaxima = (DateTime)editUser.dtAdmis;
+                            int ano = dMaxima.Year;
+                            int mes = dMaxima.Month;
+                            int dia = dMaxima.Day;
+                            dataMax = new DateOnly(ano, mes, dia);
+                        }
+                        catch { }
+                        
                         if (dataMax != dataMinima)
                         {
-                            User.dtNasc = editUser.dtAdmis;
+                            User.dtAdmis = editUser.dtAdmis;
                         }
                     }
                     if (editUser.email != null)
@@ -160,6 +195,7 @@ namespace ClinicaAPI.Service.UserService
                     {
                         User.telFixo = editUser.telFixo;
                     }
+
                 }
                 _context.Users.Update(User);
                 await _context.SaveChangesAsync();
@@ -177,6 +213,10 @@ namespace ClinicaAPI.Service.UserService
             }
             return serviceResponse;
         }
+
+
+
+
         public async Task<ServiceResponse<List<UserModel>>> GetUserbyNome(string Nome)
         {
             ServiceResponse<List<UserModel>> serviceResponse = new ServiceResponse<List<UserModel>>();
