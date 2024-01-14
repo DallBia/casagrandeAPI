@@ -45,6 +45,33 @@ public class AgendaService : IAgendaInterface
         return serviceResponse;
     }
 
+    public async Task<string> TesteA(string x)
+    {
+        try
+        {
+            var rsp = DateTime.TryParseExact(x, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime resultado);
+            resultado = resultado.AddHours(3);
+            var dados = _context.Agendas
+                .Where(x => x.diaI <= resultado && x.diaF >= resultado)
+                .Select(x => new { x.nome, x.diaI, x.diaF });
+
+            if (dados == null)
+            {
+                return "Sem dados";
+            }
+            else
+            {
+                var resp = dados.Count();
+                return resp.ToString();
+            }
+        }
+        catch
+        {
+            return "Erro";
+        }
+    }
+
+
     public async Task<ServiceResponse<List<AgendaModel>>> CreateAgenda(AgendaModel novaAgenda)
     {
         ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
