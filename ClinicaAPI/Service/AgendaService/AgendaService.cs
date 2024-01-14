@@ -78,8 +78,9 @@ public class AgendaService : IAgendaInterface
             var diaI = novaAgenda.diaI;
             var diaF = novaAgenda.diaF;
             List<AgendaModel> agendas = await _context.Agendas
-                .Where(a => a.diaI <= diaI && a.diaF >= diaF)
-                .ToListAsync();
+                .Where(a => a.diaI.ToUniversalTime() <= diaI.ToUniversalTime()
+                        && a.diaF.ToUniversalTime().AddHours(3) >= diaI.ToUniversalTime())
+                        .ToListAsync();
             serviceResponse.Dados = agendas;
             serviceResponse.Mensagem = "Agenda Salva";
             serviceResponse.Sucesso = true;
