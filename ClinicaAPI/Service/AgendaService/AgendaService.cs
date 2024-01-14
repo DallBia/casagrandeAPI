@@ -73,10 +73,13 @@ public class AgendaService : IAgendaInterface
 
         try
         {
+            serviceResponse.Mensagem = "Não foi possível adicionar";
             _context.Agendas.Add(novaAgenda);
             await _context.SaveChangesAsync();
+
             var diaI = novaAgenda.diaI;
             var diaF = novaAgenda.diaF;
+            serviceResponse.Mensagem = "Não foi possível trazer de volta";
             List<AgendaModel> agendas = await _context.Agendas
                 .Where(a => a.diaI.ToUniversalTime() <= diaI.ToUniversalTime()
                         && a.diaF.ToUniversalTime().AddHours(3) >= diaI.ToUniversalTime())
@@ -87,7 +90,7 @@ public class AgendaService : IAgendaInterface
         }
         catch (Exception ex)
         {
-            serviceResponse.Mensagem = ex.Message;
+            
             serviceResponse.Sucesso = false;
         }
               
