@@ -34,11 +34,11 @@ namespace ClinicaAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateOnly>("diaF")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("diaF")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateOnly>("diaI")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("diaI")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("dtAlt")
                         .HasColumnType("timestamp with time zone");

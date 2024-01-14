@@ -76,11 +76,15 @@ namespace ClinicaAPI.Controllers
 
 
 
+        
+
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<ClienteModel>>>> CreateCliente(ClienteModel novoCliente)
         {
             return Ok(await _clienteInterface.CreateCliente(novoCliente));
         }
+
 
 
 

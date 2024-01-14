@@ -15,8 +15,8 @@ namespace ClinicaAPI.Models
         public int sala { get; set; }
         public int unidade { get; set; }
         public string configRept { get; set; }
-        public DateOnly diaI { get; set; }
-        public DateOnly diaF { get; set; }
+        public DateTime diaI { get; set; }
+        public DateTime diaF { get; set; }
         public string diaDaSemana
         {
             get

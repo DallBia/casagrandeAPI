@@ -1,4 +1,5 @@
 ﻿using ClinicaAPI.Models;
+using ClinicaAPI.Service.DonoSalaService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,14 +21,16 @@ public class AgendaController : ControllerBase
     [HttpGet("AgendaByDate/{dia}")]
     public async Task<ActionResult<ServiceResponse<List<AgendaModel>>>> GetAgendaByDate(string dia)
     {
-        if (!DateTime.TryParseExact(dia, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
+        /*if (!DateTime.TryParseExact(dia, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
         {
             return BadRequest("Formato de data inválido. Use o formato yyyy-MM-dd.");
         }
 
-        DateOnly dateOnly = DateOnly.FromDateTime(parsedDate);
+        DateOnly dateOnly = DateOnly.FromDateTime(parsedDate);*/
+        DateTime dia0 = DateTime.Parse(dia);
+        var dia1 = dia0.ToUniversalTime();
 
-        ServiceResponse<List<AgendaModel>> serviceResponse = await _agendaInterface.GetAgendaByDate(dateOnly);
+        ServiceResponse<List<AgendaModel>> serviceResponse = await _agendaInterface.GetAgendaByDate(dia1);
         return Ok(serviceResponse);
     }
 
@@ -67,6 +70,13 @@ public class AgendaController : ControllerBase
          var num = int.Parse(quebra[0]);*/
          ServiceResponse<List<AgendaModel>> serviceResponse = await _agendaInterface.MultiAgenda(id, par);
          return Ok(serviceResponse);
+    }
+
+    [HttpGet("Teste")]
+    public async Task<string> Teste(string x)
+    {
+        string resposta = await _agendaInterface.TesteA(x);
+        return (resposta);
     }
 
 }

@@ -1,13 +1,8 @@
 ﻿using ClinicaAPI.DataContext;
 using ClinicaAPI.Enums;
 using ClinicaAPI.Models;
-using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 
 public class AgendaService : IAgendaInterface
 {
@@ -18,7 +13,7 @@ public class AgendaService : IAgendaInterface
         _context = context;
     }
 
-    public async Task<ServiceResponse<List<AgendaModel>>> GetAgendaByDate(DateOnly dia)
+    public async Task<ServiceResponse<List<AgendaModel>>> GetAgendaByDate(DateTime dia)
     {
         ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
 
@@ -26,7 +21,7 @@ public class AgendaService : IAgendaInterface
         {
             // Consulta no banco de dados para encontrar agendas na data especificada (dia).
             List<AgendaModel> agendas = await _context.Agendas
-                .Where(a => a.diaI <= dia && a.diaF >= dia)
+                .Where(a => a.diaI.ToUniversalTime() <= dia.ToUniversalTime() && a.diaF.ToUniversalTime() >= dia.ToUniversalTime())
                 .ToListAsync();
 
             serviceResponse.Dados = agendas;
@@ -52,8 +47,8 @@ public class AgendaService : IAgendaInterface
             var rsp = DateTime.TryParseExact(x, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime resultado);
             resultado = resultado.AddHours(3);
             var dados = _context.Agendas
-                .Where(x => x.diaI <= resultado && x.diaF >= resultado)
-                .Select(x => new { x.nome, x.diaI, x.diaF });
+                .Where(x => x.diaI.ToUniversalTime() <= resultado.ToUniversalTime() && x.diaF.ToUniversalTime() >= resultado.ToUniversalTime())
+                .ToList();
 
             if (dados == null)
             {
@@ -158,11 +153,12 @@ public class AgendaService : IAgendaInterface
         ServiceResponse<AgendaModel> serviceResponse = new ServiceResponse<AgendaModel>();
         if (testAgenda.nome != "")
         {
+           
             try
             {
                 AgendaModel agendaExistente = _context.Agendas
-                .FirstOrDefault(x => x.diaI <= testAgenda.diaI
-                                    && x.diaF >= testAgenda.diaF
+                .FirstOrDefault(x => x.diaI.ToUniversalTime() <= testAgenda.diaI.ToUniversalTime() 
+                                    && x.diaF.ToUniversalTime().AddHours(3) >= testAgenda.diaI.ToUniversalTime()
                                     && x.nome == testAgenda.nome
                                     && x.horario == testAgenda.horario);               
                 
@@ -231,10 +227,9 @@ public class AgendaService : IAgendaInterface
             try
             {
                 AgendaModel agendaExistente = _context.Agendas
-                .FirstOrDefault(x => x.diaI <= testAgenda.diaI
-                                    && x.diaF >= testAgenda.diaF
+                .FirstOrDefault(x => x.diaI.ToUniversalTime() <= testAgenda.diaI.ToUniversalTime()
+                                    && x.diaF.ToUniversalTime() >= testAgenda.diaI.ToUniversalTime()
                                     && x.sala == testAgenda.sala
-                                    && x.unidade == testAgenda.unidade
                                     && x.horario == testAgenda.horario
                                     && x.status != 0);
 
