@@ -13,4 +13,6 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: clinica-api-svc
+      name: clinica-api-svc      
+      port: 
+        number: 80
