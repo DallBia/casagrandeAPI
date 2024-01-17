@@ -81,12 +81,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowMyOrigin",
         builder => builder
         
-                        //.WithOrigins("http://www.clincasagrande.com.br/")
-                        //.WithOrigins("http://34.170.174.186")  
-                        //.WithOrigins("http://34.66.160.170")
+                       
 
 
-                        .WithOrigins("http://34.123.211.220")
+                        .WithOrigins("http://34.49.251.222")
                         //.AllowAnyOrigin()                             
                         .AllowAnyMethod()
                         .AllowAnyHeader()); 
@@ -94,6 +92,9 @@ builder.Services.AddCors(options =>
 });
 
 
+/*
+======== ESTA API: http://34.49.248.104 ================
+*/
 
 
 //======================================

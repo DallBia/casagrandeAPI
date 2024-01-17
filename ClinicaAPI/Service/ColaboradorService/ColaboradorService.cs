@@ -358,6 +358,10 @@ namespace ClinicaAPI.Service.ColaboradorService
                             id = T.id;
                             campo = T.nome + '%' + T.areaSession;
                             break;
+                        case ("perfil"):
+                            id = T.id;
+                            campo = T.idPerfil.ToString();
+                            break;
                         default:
                             id = T.id;
                             campo = T.nome + '%' + T.dtNasc.ToString("o");

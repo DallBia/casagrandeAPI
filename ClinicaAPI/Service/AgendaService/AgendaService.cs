@@ -2,6 +2,7 @@
 using ClinicaAPI.Enums;
 using ClinicaAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Exchange.WebServices.Data;
 using System.Security.Cryptography;
 
 public class AgendaService : IAgendaInterface
@@ -160,28 +161,34 @@ public class AgendaService : IAgendaInterface
            
             try
             {
-                AgendaModel agendaExistente = _context.Agendas
-                .FirstOrDefault(x => x.diaI.ToUniversalTime() <= testAgenda.diaI.ToUniversalTime() 
+                List<AgendaModel> agendaExistente = _context.Agendas
+                .Where(x => x.diaI.ToUniversalTime() <= testAgenda.diaI.ToUniversalTime().AddHours(3)
                                     && x.diaF.ToUniversalTime().AddHours(3) >= testAgenda.diaI.ToUniversalTime()
                                     && x.nome == testAgenda.nome
-                                    && x.horario == testAgenda.horario);               
+                                    && x.horario == testAgenda.horario
+                                    )
+                .ToList();          
                 
 
                 if (agendaExistente != null)
                 {
-                    if (agendaExistente.configRept == "X")
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Não Encontrado..";
+                    serviceResponse.Sucesso = false;
+                    foreach (AgendaModel i in agendaExistente )
+                    if (i.configRept == "X")
                     {
-                        serviceResponse.Dados = agendaExistente;
+                        serviceResponse.Dados = i;
                         serviceResponse.Mensagem = "Encontrado.";
                         serviceResponse.Sucesso = true;
                     }
                     else
                     {
-                        var rept1 = agendaExistente.configRept.Split('%');
+                        var rept1 = i.configRept.Split('%');
                         var rept2 = testAgenda.configRept.Split('%');
                         if (rept1[0] == "D")
                         {
-                            serviceResponse.Dados = agendaExistente;
+                            serviceResponse.Dados = i;
                             serviceResponse.Mensagem = "Encontrado.";
                             serviceResponse.Sucesso = true;
                         }
@@ -191,29 +198,29 @@ public class AgendaService : IAgendaInterface
                             {
                                 if (rept1[0] == "S" || rept1[2] == rept2[2])
                                 {
-                                    serviceResponse.Dados = agendaExistente;
+                                    serviceResponse.Dados = i;
                                     serviceResponse.Mensagem = "Encontrado.";
                                     serviceResponse.Sucesso = true;
                                 }
-                                else
+                                /*else
                                 {
-                                    serviceResponse.Dados = agendaExistente;
+                                    serviceResponse.Dados = i;
                                     serviceResponse.Mensagem = "Não Encontrado.";
                                     serviceResponse.Sucesso = true;
-                                }
+                                }*/
                             }
-                            else
+                            /*else
                             {
-                                serviceResponse.Dados = agendaExistente;
+                                serviceResponse.Dados = i;
                                 serviceResponse.Mensagem = "Não Encontrado.";
                                 serviceResponse.Sucesso = true;
-                            }
+                            }*/
                         }                        
                     }                    
                 }
                 else
                 {                    
-                    serviceResponse.Dados = agendaExistente;
+                    serviceResponse.Dados = null;
                     serviceResponse.Mensagem = "Não Encontrado.";
                     serviceResponse.Sucesso = true;
                 };
