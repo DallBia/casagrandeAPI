@@ -14,4 +14,10 @@ spec:
   defaultBackend:
     service:
       name: clinica-api-svc
-      port: 34.49.248.104
+      ports:
+    - port: 3000
+      targetPort: 80
+      name: http
+    - port: 443
+      targetPort: 3000
+      name: https 
