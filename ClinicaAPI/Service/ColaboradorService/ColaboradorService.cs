@@ -64,6 +64,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                     serviceResponse.Sucesso = false;
                     return serviceResponse;
                 }
+                novoColaborador.senhaHash = "";
                 _context.Add(novoColaborador);
                 await _context.SaveChangesAsync();
                 EmailRequest emailRequest = new EmailRequest();
@@ -75,7 +76,7 @@ namespace ClinicaAPI.Service.ColaboradorService
    + "<p>Seu login é o e-mail <strong><span style='color: blue; font-size: 18px;'>"
    + novoColaborador.email + ".</span></strong></p>"
    + "<p>Sua senha <b>provisória</b> é <strong><span style='color: blue; font-size: 18px;'>"
-   + novoColaborador.senhaHash + "</span></strong></p>"
+   + novoColaborador.senhaProv + "</span></strong></p>"
    + "<p>Acesse o link do <a href='https://app.clincasagrande.com.br/'>https://app.clincasagrande.com.br</a> e <b>altere a senha. </b>"
     + "Coloque uma senha que seja fácil para você decorar.</p>"
     + "<p>Para sua comodidade, salve o link na sua guia de marcadores favoritos.</p>"
@@ -160,6 +161,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                     else
                     {
                         User.senhaProv = senha;
+                        User.senhaHash = "";
                         _context.Users.Update(User);
                         await _context.SaveChangesAsync();
                         serviceResponse.Mensagem = "Usuário encontrado.";
