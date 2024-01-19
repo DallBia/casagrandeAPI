@@ -51,10 +51,20 @@ namespace ClinicaAPI.Controllers
                             ).FirstOrDefault();
             
             if (smartUser != null) {
-                smartUser.senhaProv = null;
+                if (smartUser.senhaProv != null || smartUser.ativo != true)
+                {
+                    smartUser.senhaProv = null;
+                    smartUser.ativo = true;
+                    _context.Users.Update(smartUser);
+                    _context.SaveChangesAsync();
+                }
+                
                 return smartUser; }
-            else if (provtUser != null) {
+            else if (provtUser != null || provtUser.ativo != false) {
                 provtUser.senhaHash = provtUser.senhaProv;
+                provtUser.ativo = false;
+                _context.Users.Update(provtUser);
+                _context.SaveChangesAsync();
                 return provtUser; }
             else return null;
 
