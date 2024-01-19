@@ -23,6 +23,7 @@ public class AgendaService : IAgendaInterface
             // Consulta no banco de dados para encontrar agendas na data especificada (dia).
             List<AgendaModel> agendas = await _context.Agendas
                 .Where(a => a.diaI.ToUniversalTime() <= dia.ToUniversalTime() && a.diaF.ToUniversalTime() >= dia.ToUniversalTime())
+                .OrderBy(a => a.diaI)
                 .ToListAsync();
 
             serviceResponse.Dados = agendas;
