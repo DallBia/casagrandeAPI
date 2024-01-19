@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp;
 using ClinicaAPI.Service.ClienteService;
 using Microsoft.Exchange.WebServices.Data;
-
+using MimeKit;
 
 namespace ClinicaAPI.Controllers
 {
@@ -22,16 +22,6 @@ namespace ClinicaAPI.Controllers
         {
             _colaboradorInterface = colaboradorInterface;
             _context = context;
-        }
-        
-
-
-        [Authorize]
-        [HttpPut("Editar")]
-        public async Task<ActionResult<ServiceResponse<List<UserModel>>>> UpdateColaborador(UserModel editUser)
-        {
-            ServiceResponse<List<UserModel>> serviceResponse = await _colaboradorInterface.UpdateColaborador(editUser);
-            return Ok(serviceResponse);
         }
 
         [Authorize]
@@ -82,6 +72,34 @@ namespace ClinicaAPI.Controllers
         }
 
 
+        [HttpPost("AlterarSenha")]
+
+        public async Task<IActionResult> AlterarSenha([FromBody] LoginDTO valor)
+        {
+            var variavel = valor.Usuario.Split('|');
+            string email = variavel[0];
+            string corpo = valor.Senha;
+            string senha = variavel[1];
+            ServiceResponse<string> serviceResponse = await _colaboradorInterface.Alt(email, corpo, senha);
+            return Ok(serviceResponse);
+        }
+        /*
+         public async Task<IActionResult> AlterarSenha([FromBody] string email, string corpo, string senha)
+        {
+            ServiceResponse<string> serviceResponse = await _colaboradorInterface.AlterarSenha(email);
+            return Ok(serviceResponse);
+        }
+        */
+
+        [Authorize]
+        [HttpPut("Editar")]
+        public async Task<ActionResult<ServiceResponse<List<UserModel>>>> UpdateColaborador(UserModel editUser)
+        {
+            ServiceResponse<List<UserModel>> serviceResponse = await _colaboradorInterface.UpdateColaborador(editUser);
+            return Ok(serviceResponse);
+        }
+
+
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<UserModel>>>> CreateColaborador(UserModel novoColaborador)
@@ -89,14 +107,7 @@ namespace ClinicaAPI.Controllers
             return Ok(await _colaboradorInterface.CreateColaborador(novoColaborador));
         }
 
-        [Authorize]
-        [HttpPost("Altera")]
-        //public async Task<ActionResult<ServiceResponse<UserModel>>> AlterarSenha(string email)
-            public async Task<IActionResult> AlterarSenha([FromBody] string email)
-        {
-            ServiceResponse<UserModel> serviceResponse = await _colaboradorInterface.AlterarSenha(email);
-            return Ok(serviceResponse);
-        }
+        
 
         [HttpGet("Agenda/{tipo}")]
         public async Task<ActionResult<ServiceResponse<List<TipoModel>>>> GetColaboradorbyAgenda(string tipo)

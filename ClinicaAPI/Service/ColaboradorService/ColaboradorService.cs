@@ -5,6 +5,7 @@ using ClinicaAPI.Models;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Exchange.WebServices.Data;
 using MimeKit;
 /*
 using Google.Apis.Auth.OAuth2;
@@ -127,7 +128,78 @@ namespace ClinicaAPI.Service.ColaboradorService
         }
 
 
+        public async Task<ServiceResponse<string>> Alt(string email, string corpo, string senha)
+        {
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
+            serviceResponse.Dados = null;
+            serviceResponse.Sucesso = false;
+            try
+            {
+                if (email == null)
+                {
+                    serviceResponse.Mensagem = "Informar dados...";
+                    return serviceResponse;
+                }
+
+                EmailRequest emailRequest = new EmailRequest();
+                emailRequest.Destinatario = email;
+                emailRequest.Assunto = "Alteração de Senha";
+                emailRequest.Corpo = corpo;
+
+                //ServiceResponse<List<EmailRequest>> emailResponse = await _emailService.EnviarEmailAsync(emailRequest);
+                try
+                {
+                    var enviar = new MimeMessage();
+                    UserModel User = _context.Users.AsNoTracking().FirstOrDefault(x => x.email == email);
+                    if (User == null)
+                    {
+                        serviceResponse.Mensagem = "Nenhum dado encontrado.";
+
+                    }
+                    else
+                    {
+                        User.senhaProv = senha;
+                        _context.Users.Update(User);
+                        await _context.SaveChangesAsync();
+                        serviceResponse.Mensagem = "Usuário encontrado.";
+                    }
+                    if (serviceResponse.Mensagem == "Usuário encontrado.")
+                    {
+                        enviar.From.Add(MailboxAddress.Parse(_configuration["EmailConfig:FromEmail"]));
+                        enviar.Subject = emailRequest.Assunto;
+                        enviar.Body = new TextPart("html")
+                        {
+                            Text = emailRequest.Corpo
+                        };
+                        using var smtp = new SmtpClient();
+
+                        smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                        var usuario = _configuration["EmailConfig:FromEmail"];
+                        //var usuario = "966741631742-sjsrqt2f8251f7qc0b48i2qcnrsi7tk2.apps.googleusercontent.com";
+                        var hash = "sknr xkhy mjzf twul";
+                        //var hash = _configuration["EmailConfig:Password"];
+                        enviar.To.Add(MailboxAddress.Parse(emailRequest.Destinatario));
+                        smtp.Authenticate(usuario, hash);
+                        smtp.Send(enviar);
+                        smtp.Disconnect(true);
+
+                        serviceResponse.Mensagem = "mensagem enviada";
+                        serviceResponse.Sucesso = true;
+                    }
+
+                }
+                catch
+                {
+                    serviceResponse.Mensagem = "erro no envio do e-mail";
+                }
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+            }
+            return serviceResponse;
+        }
         //[HttpPost("Altera")]
         public async Task<ServiceResponse<UserModel>> AlterarSenha(string email)
         {

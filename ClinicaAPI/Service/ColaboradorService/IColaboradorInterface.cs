@@ -15,5 +15,7 @@ namespace ClinicaAPI.Service.ColaboradorService
         Task<ServiceResponse<List<UserModel>>> GetColab(string id);
 
         Task<ServiceResponse<UserModel>> AlterarSenha(string email);
+
+        Task<ServiceResponse<string>> Alt(string email, string corpo, string senha);
     }
 }

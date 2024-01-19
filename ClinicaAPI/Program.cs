@@ -81,8 +81,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowMyOrigin",
         builder => builder    
 
-                        //.WithOrigins("http://34.49.251.222")
-                        .AllowAnyOrigin()                             
+                        .WithOrigins("https://app.clincasagrande.com.br")
+                        //.AllowAnyOrigin()                             
                         .AllowAnyMethod()
                         .AllowAnyHeader()); 
                 
