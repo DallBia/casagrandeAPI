@@ -106,7 +106,7 @@ namespace ClinicaAPI.Controllers
 
 
 
-        [HttpDelete]
+        [HttpDelete("id/{id}")]
         public async Task<ActionResult<ServiceResponse<List<ClienteModel>>>> DeleteCliente(int Id)
         {
             ServiceResponse<List<ClienteModel>> serviceResponse = await _clienteInterface.DeleteCliente(Id);

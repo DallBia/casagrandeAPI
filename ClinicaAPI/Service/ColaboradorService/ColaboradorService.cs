@@ -722,7 +722,34 @@ namespace ClinicaAPI.Service.ColaboradorService
 
         }
 
-        
+        public async Task<ServiceResponse<List<UserModel>>> DeleteColaborador(int Id)
+        {
+            ServiceResponse<List<UserModel>> serviceResponse = new ServiceResponse<List<UserModel>>();
+
+            try
+            {
+                UserModel user = _context.Users.AsNoTracking().FirstOrDefault(x => x.id == Id);
+
+
+                if (user == null)
+                {
+                    serviceResponse.Mensagem = "Usuário não encontrado.";
+                    serviceResponse.Dados = null;
+                    serviceResponse.Sucesso = false;
+                }
+
+
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Users.ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
+        }
     }
     
 }

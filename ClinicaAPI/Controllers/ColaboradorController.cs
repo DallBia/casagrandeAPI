@@ -131,5 +131,12 @@ namespace ClinicaAPI.Controllers
             ServiceResponse<List<UserModel>> serviceResponse = await _colaboradorInterface.GetColab(id);
             return Ok(serviceResponse);
         }
+
+        [HttpDelete("id/{id}")]
+        public async Task<ActionResult<ServiceResponse<List<UserModel>>>> DeleteColaborador(int Id)
+        {
+            ServiceResponse<List<UserModel>> serviceResponse = await _colaboradorInterface.DeleteColaborador(Id);
+            return Ok(serviceResponse);
+        }
     }
 }

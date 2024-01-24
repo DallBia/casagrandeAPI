@@ -76,6 +76,8 @@ public class AgendaService : IAgendaInterface
         try
         {
             serviceResponse.Mensagem = "Não foi possível adicionar";
+            novaAgenda.diaI = novaAgenda.diaI.ToUniversalTime();
+            novaAgenda.diaF = novaAgenda.diaF.ToUniversalTime();
             _context.Agendas.Add(novaAgenda);
             await _context.SaveChangesAsync();
 

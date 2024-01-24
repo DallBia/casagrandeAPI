@@ -60,11 +60,14 @@ namespace ClinicaAPI.Controllers
                 }
                 
                 return smartUser; }
-            else if (provtUser != null || provtUser.ativo != false) {
-                provtUser.senhaHash = provtUser.senhaProv;
-                provtUser.ativo = false;
-                _context.Users.Update(provtUser);
-                _context.SaveChangesAsync();
+            else if (provtUser != null) {
+                if (provtUser.ativo != false)
+                {
+                    provtUser.senhaHash = provtUser.senhaProv;
+                    provtUser.ativo = false;
+                    _context.Users.Update(provtUser);
+                    _context.SaveChangesAsync();
+                }                
                 return provtUser; }
             else return null;
 
