@@ -136,5 +136,35 @@ namespace ClinicaAPI.Service.ProntuarioService
             }
             return serviceResponse;
         }
+
+
+        public async Task<ServiceResponse<List<ProntuarioModel>>> DeletePront(int Id)
+        {
+            ServiceResponse<List<ProntuarioModel>> serviceResponse = new ServiceResponse<List<ProntuarioModel>>();
+
+            try
+            {
+                ProntuarioModel pront = _context.Prontuarios.AsNoTracking().FirstOrDefault(x => x.Id == Id);
+
+
+                if (pront == null)
+                {
+                    serviceResponse.Mensagem = "Usuário não encontrado.";
+                    serviceResponse.Dados = null;
+                    serviceResponse.Sucesso = false;
+                }
+
+
+                _context.Prontuarios.Remove(pront);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Prontuarios.ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
+        }
     }
 }

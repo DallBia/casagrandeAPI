@@ -353,7 +353,7 @@ namespace ClinicaAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("UploadDate")
+                    b.Property<DateTime>("UploadDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");

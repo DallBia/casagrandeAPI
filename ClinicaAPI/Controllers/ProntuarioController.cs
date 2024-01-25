@@ -1,4 +1,5 @@
 ﻿using ClinicaAPI.Models;
+using ClinicaAPI.Service.ClienteService;
 using ClinicaAPI.Service.ProntuarioService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,15 @@ namespace ClinicaAPI.Controllers
         public async Task<ActionResult<ServiceResponse<List<ProntuarioModel>>>> UpdateProntuario(ProntuarioModel editProntuario)
         {
             ServiceResponse<List<ProntuarioModel>> serviceResponse = await _prontuarioInterface.UpdateProntuario(editProntuario);
+            return Ok(serviceResponse);
+        }
+
+
+        [Authorize]
+        [HttpDelete("id/{id}")]
+        public async Task<ActionResult<ServiceResponse<List<ProntuarioModel>>>> DeletePront(int Id)
+        {
+            ServiceResponse<List<ProntuarioModel>> serviceResponse = await _prontuarioInterface.DeletePront(Id);
             return Ok(serviceResponse);
         }
     }
