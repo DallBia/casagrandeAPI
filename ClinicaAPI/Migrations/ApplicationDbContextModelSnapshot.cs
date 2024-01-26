@@ -353,8 +353,9 @@ namespace ClinicaAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UploadDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("UploadDate")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -416,8 +417,8 @@ namespace ClinicaAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateOnly?>("DtConclusao")
-                        .HasColumnType("date");
+                    b.Property<string>("DtConclusao")
+                        .HasColumnType("text");
 
                     b.Property<int>("IdFuncionario")
                         .HasColumnType("integer");

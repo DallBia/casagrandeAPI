@@ -56,7 +56,7 @@ namespace ClinicaAPI.Controllers
                 foreach (var i in retorno)
                 {
                     TipoModel tmp = new TipoModel();
-                    var dia = i.UploadDate.ToShortDateString();
+                    var dia = i.UploadDate;
                     tmp.id = i.Id;
                     tmp.nome = i.FileName + "|" + i.ContentType + "|" + dia;
                     clientes.Add(tmp);
@@ -97,7 +97,7 @@ namespace ClinicaAPI.Controllers
                     if (dadosId == id && dados[1] == "C")
                     {
                         TipoModel tmp = new TipoModel();
-                        var dia = i.UploadDate.ToString();
+                        var dia = i.UploadDate;
                         tmp.id = i.Id;
                         tmp.nome = i.FileName + "|" + i.ContentType + "|" + dia;
                         resultado.Add(tmp);
@@ -140,7 +140,7 @@ namespace ClinicaAPI.Controllers
                     if (dadosId == id && dados[1] == "E")
                     {
                         TipoModel tmp = new TipoModel();
-                        var dia = i.UploadDate.ToString();
+                        var dia = i.UploadDate;
                         tmp.id = i.Id;
                         tmp.nome = i.FileName + "|" + i.ContentType + "|" + dia;
                         resultado.Add(tmp);
