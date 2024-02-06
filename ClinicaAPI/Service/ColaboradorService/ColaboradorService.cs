@@ -333,7 +333,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                         User.idPerfil = editUser.idPerfil;
                     }
 
-                    DateOnly dataMinima = new DateOnly(1900, 1, 1);
+                    DateOnly dataMinima = new DateOnly(1901, 1, 1);
                     if (editUser.dtDeslig != null)
                     {
                         DateTime dMaxima = (DateTime)editUser.dtDeslig;
@@ -341,7 +341,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                         int mes = dMaxima.Month;
                         int dia = dMaxima.Day;
                         DateOnly dataMax = new DateOnly(ano, mes, dia);
-                        if (dataMax != dataMinima)
+                        if (dataMax > dataMinima)
                         {
                             dataMinima = new DateOnly(1901, 1, 1);
                             if (dataMax < dataMinima)
@@ -362,7 +362,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                         int mes = dMaxima.Month;
                         int dia = dMaxima.Day;
                         DateOnly dataMax = new DateOnly(ano, mes, dia);
-                        if (dataMax != dataMinima)
+                        if (dataMax > dataMinima)
                         {
                             User.dtNasc = dMaxima.ToUniversalTime();
                         }
@@ -374,7 +374,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                         int mes = dMaxima.Month;
                         int dia = dMaxima.Day;
                         DateOnly dataMax = new DateOnly(ano, mes, dia);
-                        if (dataMax != dataMinima)
+                        if (dataMax > dataMinima)
                         {
                             User.dtAdmis = dMaxima.ToUniversalTime();
                         }
