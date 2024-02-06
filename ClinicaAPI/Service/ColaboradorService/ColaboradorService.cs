@@ -343,7 +343,16 @@ namespace ClinicaAPI.Service.ColaboradorService
                         DateOnly dataMax = new DateOnly(ano, mes, dia);
                         if (dataMax != dataMinima)
                         {
-                            User.dtDeslig = dMaxima.ToUniversalTime();
+                            dataMinima = new DateOnly(1901, 1, 1);
+                            if (dataMax < dataMinima)
+                            {
+                                User.dtDeslig = null;
+                            }
+                            else
+                            {
+                                User.dtDeslig = dMaxima.ToUniversalTime();
+                            }
+                            
                         }
                     }
                     if (editUser.dtNasc != null)
