@@ -44,6 +44,7 @@ namespace ClinicaAPI.Controllers
             return Ok(await _FormacaoInterface.CreateFormacao(novoFormacao));
         }
 
+        [Authorize]
         [HttpPut("Editar")]
         public async Task<ActionResult<ServiceResponse<List<FormacaoModel>>>> UpdateFormacao(FormacaoModel editFormacao)
         {

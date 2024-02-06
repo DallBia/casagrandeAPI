@@ -407,38 +407,38 @@ namespace ClinicaAPI.Migrations
 
             modelBuilder.Entity("ClinicaAPI.Models.FormacaoModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("AreasRelacionadas")
+                    b.Property<string>("areasRelacionadas")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("DtConclusao")
+                    b.Property<string>("dtConclusao")
                         .HasColumnType("text");
 
-                    b.Property<int>("IdFuncionario")
+                    b.Property<int>("idFuncionario")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Instituicao")
+                    b.Property<string>("instituicao")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Nivel")
+                    b.Property<string>("nivel")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("NomeFormacao")
+                    b.Property<string>("nomeFormacao")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Registro")
+                    b.Property<string>("registro")
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Formacaos");
                 });

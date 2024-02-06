@@ -15,7 +15,7 @@ namespace ClinicaAPI.Models
         public string? telFixo { get; set; }
         public string? celular { get; set; }
         public string email { get; set; }
-        public DateTime dtAdmis { get; set; } 
+        public DateTime dtAdmis { get; set; }
         public DateTime? dtDeslig { get; set; }
         public int idPerfil { get; set; }
         public bool ativo { get; set; } = true;

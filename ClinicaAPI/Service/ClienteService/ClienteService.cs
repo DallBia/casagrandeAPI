@@ -459,55 +459,157 @@ namespace ClinicaAPI.Service.ClienteService
                     // Extrair valores
                     string tipo = partes[0];
                     string valor = partes[1];
+                    string ativo = partes[4];
                     var Dados = new List<ClienteModel>();
 
                     // Converter a terceira parte para inteiro (índice)
                     if (int.TryParse(partes[2], out int indice))
                     {
-                        //Aplicar o filtro primeiro:
-                        switch (tipo)
+                        switch (ativo)
                         {
-                            case "Nome":
-                                Dados = _context.Clientes
-                                    .OrderBy(x => x.Id)
-                                    .Where(x => x.Nome.ToLower().Contains(valor.ToLower()))
-                                    .ToList();
-                                break;
-                            case "Nome da Mãe":
-                                Dados = _context.Clientes
-                                    .OrderBy(x => x.Id)
-                                    .Where(x => x.Mae.ToLower().Contains(valor.ToLower()))
-                                    .ToList();
-                                break;
-                            case "Área":
-                                Dados = _context.Clientes
-                                    .OrderBy(x => x.Id)
-                                    .Where(x => x.AreaSession.ToLower().Contains(valor.ToLower()))
-                                    .ToList();
-                                break;
-                            case "Idade":
-                                var idade = int.Parse(valor);
-
-                                DateTime dataReferencia = DateTime.Now.ToLocalTime();                                
-                                DateTime dataMinima = dataReferencia.AddYears(-idade - 1);
-                                DateTime dataMaxima = dataReferencia.AddYears(-idade);
-
-                                List<ClienteModel> clientes2 = _context.Clientes.ToList();
-
-                                foreach (var i in clientes2)
+                            case "A":
+                                switch (tipo)
                                 {
-                                    if (i.DtNascim >= dataMinima && i.DtNascim < dataMaxima)
-                                    {
-                                        Dados.Add(i);
-                                    }
-                                }                                
+                                    case "Nome":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.Nome.ToLower().Contains(valor.ToLower()) && x.Ativo == true)
+                                            .ToList();
+                                        break;
+                                    case "Nome da Mãe":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.Mae.ToLower().Contains(valor.ToLower()) && x.Ativo == true)
+                                            .ToList();
+                                        break;
+                                    case "Área":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.AreaSession.ToLower().Contains(valor.ToLower()) && x.Ativo == true)
+                                            .ToList();
+                                        break;
+                                    case "Idade":
+                                        var idade = int.Parse(valor);
+
+                                        DateTime dataReferencia = DateTime.Now.ToLocalTime();
+                                        DateTime dataMinima = dataReferencia.AddYears(-idade - 1);
+                                        DateTime dataMaxima = dataReferencia.AddYears(-idade);
+
+                                        List<ClienteModel> clientes2 = _context.Clientes
+                                            .Where(x => x.Ativo == true)
+                                            .ToList();
+
+                                        foreach (var i in clientes2)
+                                        {
+                                            if (i.DtNascim >= dataMinima && i.DtNascim < dataMaxima)
+                                            {
+                                                Dados.Add(i);
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.Ativo == true)
+                                            .ToList();
+                                        break;
+                                }
+                                break;
+                            case "I":
+                                switch (tipo)
+                                {
+                                    case "Nome":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.Nome.ToLower().Contains(valor.ToLower()) && x.Ativo == false)
+                                            .ToList();
+                                        break;
+                                    case "Nome da Mãe":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.Mae.ToLower().Contains(valor.ToLower()) && x.Ativo == false)
+                                            .ToList();
+                                        break;
+                                    case "Área":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.AreaSession.ToLower().Contains(valor.ToLower()) && x.Ativo == false)
+                                            .ToList();
+                                        break;
+                                    case "Idade":
+                                        var idade = int.Parse(valor);
+
+                                        DateTime dataReferencia = DateTime.Now.ToLocalTime();
+                                        DateTime dataMinima = dataReferencia.AddYears(-idade - 1);
+                                        DateTime dataMaxima = dataReferencia.AddYears(-idade);
+
+                                        List<ClienteModel> clientes2 = _context.Clientes
+                                            .Where(x => x.Ativo == false)
+                                            .ToList();
+
+                                        foreach (var i in clientes2)
+                                        {
+                                            if (i.DtNascim >= dataMinima && i.DtNascim < dataMaxima)
+                                            {
+                                                Dados.Add(i);
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.Ativo == false)
+                                            .ToList();
+                                        break;
+                                }
                                 break;
                             default:
-                                Dados = _context.Clientes
-                                    .OrderBy(x => x.Id)
-                                    .ToList();
+                                switch (tipo)
+                                {
+                                    case "Nome":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.Nome.ToLower().Contains(valor.ToLower()))
+                                            .ToList();
+                                        break;
+                                    case "Nome da Mãe":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.Mae.ToLower().Contains(valor.ToLower()))
+                                            .ToList();
+                                        break;
+                                    case "Área":
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .Where(x => x.AreaSession.ToLower().Contains(valor.ToLower()))
+                                            .ToList();
+                                        break;
+                                    case "Idade":
+                                        var idade = int.Parse(valor);
+
+                                        DateTime dataReferencia = DateTime.Now.ToLocalTime();
+                                        DateTime dataMinima = dataReferencia.AddYears(-idade - 1);
+                                        DateTime dataMaxima = dataReferencia.AddYears(-idade);
+
+                                        List<ClienteModel> clientes2 = _context.Clientes.ToList();
+
+                                        foreach (var i in clientes2)
+                                        {
+                                            if (i.DtNascim >= dataMinima && i.DtNascim < dataMaxima)
+                                            {
+                                                Dados.Add(i);
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        Dados = _context.Clientes
+                                            .OrderBy(x => x.Id)
+                                            .ToList();
+                                        break;
+                                }
                                 break;
                         }
+                            
                         var ListaTmp = new List<ClienteModel>();
                         var Lista = new List<ClienteModel>();
                         List<ClienteModel> DadosList = new List<ClienteModel>();

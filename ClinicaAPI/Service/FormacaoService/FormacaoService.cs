@@ -68,7 +68,7 @@ namespace ClinicaAPI.Service.FormacaoService
             ServiceResponse<List<FormacaoModel>> serviceResponse = new ServiceResponse<List<FormacaoModel>>();
             try
             {
-                FormacaoModel Formacao = _context.Formacaos.AsNoTracking().FirstOrDefault(x => x.Id == editFormacao.Id);
+                FormacaoModel Formacao = _context.Formacaos.AsNoTracking().FirstOrDefault(x => x.id == editFormacao.id);
 
 
                 if (Formacao == null)
@@ -98,7 +98,7 @@ namespace ClinicaAPI.Service.FormacaoService
             try
             {
                 List<FormacaoModel> Formacaos = _context.Formacaos
-                    .Where(x => x.AreasRelacionadas.ToLower().Contains(Area.ToLower()))
+                    .Where(x => x.areasRelacionadas.ToLower().Contains(Area.ToLower()))
                     .ToList();
 
                 if (Formacaos.Count == 0)
@@ -129,7 +129,7 @@ namespace ClinicaAPI.Service.FormacaoService
             try
             {
                 List<FormacaoModel> Formacaos = _context.Formacaos
-                    .Where(x => x.IdFuncionario == Id)
+                    .Where(x => x.idFuncionario == Id)
                     .ToList();
 
                 if (Formacaos.Count == 0)

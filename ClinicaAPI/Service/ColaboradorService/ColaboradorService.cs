@@ -343,31 +343,31 @@ namespace ClinicaAPI.Service.ColaboradorService
                         DateOnly dataMax = new DateOnly(ano, mes, dia);
                         if (dataMax != dataMinima)
                         {
-                            User.dtDeslig = editUser.dtDeslig;
+                            User.dtDeslig = dMaxima.ToUniversalTime();
                         }
                     }
                     if (editUser.dtNasc != null)
                     {
-                        DateTime dMaxima = editUser.dtNasc;
+                        DateTime dMaxima = (DateTime)editUser.dtNasc;
                         int ano = dMaxima.Year;
                         int mes = dMaxima.Month;
                         int dia = dMaxima.Day;
                         DateOnly dataMax = new DateOnly(ano, mes, dia);
                         if (dataMax != dataMinima)
                         {
-                            User.dtNasc = editUser.dtNasc;
+                            User.dtNasc = dMaxima.ToUniversalTime();
                         }
                     }
                     if (editUser.dtAdmis != null)
                     {
-                        DateTime dMaxima = editUser.dtAdmis;
+                        DateTime dMaxima = (DateTime)editUser.dtAdmis;
                         int ano = dMaxima.Year;
                         int mes = dMaxima.Month;
                         int dia = dMaxima.Day;
                         DateOnly dataMax = new DateOnly(ano, mes, dia);
                         if (dataMax != dataMinima)
                         {
-                            User.dtAdmis = editUser.dtAdmis;
+                            User.dtAdmis = dMaxima.ToUniversalTime();
                         }
                     }
                     if (editUser.email != "")
@@ -506,6 +506,7 @@ namespace ClinicaAPI.Service.ColaboradorService
                     // Extrair valores
                     string tipo = partes[0];
                     string valor = partes[1];
+                    string ativo = partes[4];
 
 
                     // Converter a terceira parte para inteiro (índice)
@@ -516,133 +517,402 @@ namespace ClinicaAPI.Service.ColaboradorService
                         var Lista = new List<UserModel>();
                         List<UserModel> DadosList = new List<UserModel>();
 
-                            switch (tipo)
+                        switch (ativo)
                         {
-                            case "nome":
-                                if (partes[3] == "P")
+                            case "A":
+                                switch (tipo)
                                 {
-                                    ListaTmp = _context.Users
-                                    .OrderBy(x => x.id)
-                                    .Where(x => x.nome.ToLower().Contains(valor.ToLower()))
-                                    .ToList();
+                                    case "nome":
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.ativo == true)
+                                            .ToList();
 
-                                    Lista = _context.Users
-                                    .OrderBy(x => x.id)
-                                    .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.id >= indice)
-                                    .Take(10)
-                                    .ToList();
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.ativo == true && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.ativo == true)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.ativo == true && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+
+                                    case "area":
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.ativo == true)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.ativo == true && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.ativo == true)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.ativo == true && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+                                    case "perfil":
+                                        var perf = int.Parse(valor);
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.ativo == true)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.ativo == true && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.ativo == true)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.ativo == true && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+                                    default:
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.ativo == true)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.id >= indice && x.ativo == true)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.ativo == true)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.id <= indice && x.ativo == true)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
                                 }
-                                else
-                                {
-                                    ListaTmp = _context.Users
-                                    .OrderByDescending(x => x.id)
-                                    .Where(x => x.nome.ToLower().Contains(valor.ToLower()))
-                                    .OrderBy(x => x.id)
-                                    .ToList();
-
-                                    Lista = _context.Users
-                                    .OrderByDescending(x => x.id)
-                                    .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.id <= indice)
-                                    .Take(10)
-                                    .OrderBy(x => x.id)
-                                    .ToList();
-                                }
-
                                 break;
-
-                            case "area":
-                                if (partes[3] == "P")
+                            case "I":
+                                switch (tipo)
                                 {
-                                    ListaTmp = _context.Users
-                                    .OrderBy(x => x.id)
-                                    .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()))
-                                    .ToList();
+                                    case "nome":
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.ativo == false)
+                                            .ToList();
 
-                                    Lista = _context.Users
-                                    .OrderBy(x => x.id)
-                                    .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.id >= indice)
-                                    .Take(10)
-                                    .ToList();
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.ativo == false && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.ativo == false)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.ativo == false && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+
+                                    case "area":
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.ativo == false)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.ativo == false && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.ativo == false)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.ativo == false && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+                                    case "perfil":
+                                        var perf = int.Parse(valor);
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.ativo == false)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.ativo == false && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.ativo == false)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.ativo == false && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+                                    default:
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.ativo == false)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.id >= indice && x.ativo == false)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.ativo == false)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.id <= indice && x.ativo == false)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
                                 }
-                                else
-                                {
-                                    ListaTmp = _context.Users
-                                    .OrderByDescending(x => x.id)
-                                    .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()))
-                                    .OrderBy(x => x.id)
-                                    .ToList();
-
-                                    Lista = _context.Users
-                                    .OrderByDescending(x => x.id)
-                                    .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.id <= indice)
-                                    .Take(10)
-                                    .OrderBy(x => x.id)
-                                    .ToList();
-                                }
-
-                                break;
-                            case "perfil":
-                                var perf = int.Parse(valor);
-                                if (partes[3] == "P")
-                                {
-                                    ListaTmp = _context.Users
-                                    .OrderBy(x => x.id)
-                                    .Where(x => x.idPerfil == perf)
-                                    .ToList();
-
-                                    Lista = _context.Users
-                                    .OrderBy(x => x.id)
-                                    .Where(x => x.idPerfil == perf && x.id >= indice)
-                                    .Take(10)
-                                    .ToList();
-                                }
-                                else
-                                {
-                                    ListaTmp = _context.Users
-                                    .OrderByDescending(x => x.id)
-                                    .Where(x => x.idPerfil == perf)
-                                    .OrderBy(x => x.id)
-                                    .ToList();
-
-                                    Lista = _context.Users
-                                    .OrderByDescending(x => x.id)
-                                    .Where(x => x.idPerfil == perf && x.id <= indice)
-                                    .Take(10)
-                                    .OrderBy(x => x.id)
-                                    .ToList();
-                                }
-
                                 break;
                             default:
-                                if (partes[3] == "P")
+                                switch (tipo)
                                 {
-                                    ListaTmp = _context.Users
-                                    .OrderBy(x => x.id)
-                                    .ToList();
+                                    case "nome":
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()))
+                                            .ToList();
 
-                                    Lista = _context.Users
-                                    .OrderBy(x => x.id)
-                                    .Where(x => x.id >= indice)
-                                    .Take(10)
-                                    .ToList();
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()))
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.nome.ToLower().Contains(valor.ToLower()) && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+
+                                    case "area":
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()))
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()))
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.areaSession.ToLower().Contains(valor.ToLower()) && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+                                    case "perfil":
+                                        var perf = int.Parse(valor);
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.idPerfil == perf)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.idPerfil == perf)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.idPerfil == perf && x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
+                                    default:
+                                        if (partes[3] == "P")
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderBy(x => x.id)
+                                            .Where(x => x.id >= indice)
+                                            .Take(10)
+                                            .ToList();
+                                        }
+                                        else
+                                        {
+                                            ListaTmp = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+
+                                            Lista = _context.Users
+                                            .OrderByDescending(x => x.id)
+                                            .Where(x => x.id <= indice)
+                                            .Take(10)
+                                            .OrderBy(x => x.id)
+                                            .ToList();
+                                        }
+
+                                        break;
                                 }
-                                else
-                                {
-                                    ListaTmp = _context.Users
-                                    .OrderByDescending(x => x.id)
-                                    .OrderBy(x => x.id)
-                                    .ToList();
-
-                                    Lista = _context.Users
-                                    .OrderByDescending(x => x.id)
-                                    .Where(x => x.id <= indice)
-                                    .Take(10)
-                                    .OrderBy(x => x.id)
-                                    .ToList();
-                                }
-
                                 break;
                         }
+                            
+
                         var firstX = ListaTmp.FirstOrDefault()?.id;
                         var lastX = ListaTmp.LastOrDefault()?.id;
                         var firstY = Lista.FirstOrDefault()?.id;
