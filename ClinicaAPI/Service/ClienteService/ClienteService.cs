@@ -148,6 +148,9 @@ namespace ClinicaAPI.Service.ClienteService
                     serviceResponse.Dados = null;
                     serviceResponse.Sucesso = false;
                 }
+                editCliente.DtInclusao = editCliente.DtInclusao.ToUniversalTime();
+                editCliente.DtNascim = editCliente.DtNascim.ToUniversalTime();
+                editCliente.ClienteDesde= editCliente.ClienteDesde.ToUniversalTime();
 
 
                 _context.Clientes.Update(editCliente);
