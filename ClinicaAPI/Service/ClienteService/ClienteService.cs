@@ -57,6 +57,8 @@ namespace ClinicaAPI.Service.ClienteService
 
             try
             {
+                int n1 = 0;
+                int n2 = 0;
                 if (novoCliente == null)
                 {
                     serviceResponse.Dados = null;
@@ -64,11 +66,14 @@ namespace ClinicaAPI.Service.ClienteService
                     serviceResponse.Sucesso = false;
                     return serviceResponse;
                 }
+                n1 = _context.Clientes.ToList().Count();
                 novoCliente.DtInclusao = novoCliente.DtInclusao.ToUniversalTime();
                 novoCliente.DtNascim = novoCliente.DtNascim.ToUniversalTime();
                 novoCliente.ClienteDesde = novoCliente.ClienteDesde.ToUniversalTime();
+
                 _context.Add(novoCliente);
                 await _context.SaveChangesAsync();
+                n2 = _context.Clientes.ToList().Count();
                 serviceResponse.Dados = _context.Clientes.ToList();
                 if (serviceResponse.Dados.Count == 0)
                 {
