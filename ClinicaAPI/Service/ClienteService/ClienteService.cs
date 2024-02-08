@@ -66,11 +66,11 @@ namespace ClinicaAPI.Service.ClienteService
                     serviceResponse.Sucesso = false;
                     return serviceResponse;
                 }
-                n1 = _context.Clientes.ToList().Count();
+                
                 novoCliente.DtInclusao = novoCliente.DtInclusao.ToUniversalTime();
                 novoCliente.DtNascim = novoCliente.DtNascim.ToUniversalTime();
                 novoCliente.ClienteDesde = novoCliente.ClienteDesde.ToUniversalTime();
-
+                n1 = _context.Clientes.ToList().Count();
                 _context.Add(novoCliente);
                 await _context.SaveChangesAsync();
                 n2 = _context.Clientes.ToList().Count();
