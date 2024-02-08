@@ -352,6 +352,9 @@ public class AgendaService : IAgendaInterface
                             i.repeticao = 0;
                             i.status = (StatusEnum)0;
                             i.subtitulo = "";
+                            i.diaF = i.diaF.ToUniversalTime();
+                            i.diaI = i.diaI.ToUniversalTime();
+                            i.dtAlt = i.dtAlt.ToUniversalTime();
                         }
                         _context.Agendas.UpdateRange(agendas);
                         await _context.SaveChangesAsync();
@@ -386,6 +389,9 @@ public class AgendaService : IAgendaInterface
                             i.repeticao = 0;
                             i.status = (StatusEnum)0;
                             i.subtitulo = "";
+                            i.diaF = i.diaF.ToUniversalTime();
+                            i.diaI = i.diaI.ToUniversalTime();
+                            i.dtAlt = i.dtAlt.ToUniversalTime();
                         }
                         _context.Agendas.UpdateRange(agendas2);
                         await _context.SaveChangesAsync();
@@ -412,6 +418,9 @@ public class AgendaService : IAgendaInterface
                         foreach (AgendaModel i in agendas3)
                         {
                             i.status = (StatusEnum)6;
+                            i.diaF = i.diaF.ToUniversalTime();
+                            i.diaI = i.diaI.ToUniversalTime();
+                            i.dtAlt = i.dtAlt.ToUniversalTime();
                         }
                         _context.Agendas.UpdateRange(agendas3);
                         await _context.SaveChangesAsync();
@@ -438,6 +447,9 @@ public class AgendaService : IAgendaInterface
                         foreach (AgendaModel i in agendas10)
                         {                          
                             i.status = (StatusEnum)2;
+                            i.diaF = i.diaF.ToUniversalTime();
+                            i.diaI = i.diaI.ToUniversalTime();
+                            i.dtAlt = i.dtAlt.ToUniversalTime();
                         }
                         _context.Agendas.UpdateRange(agendas10);
                         await _context.SaveChangesAsync();
