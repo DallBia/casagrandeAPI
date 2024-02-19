@@ -2,10 +2,6 @@
 using ClinicaAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Exchange.WebServices.Data;
-using System.IO;
 using System.Net.Mime;
 
 namespace ClinicaAPI.Controllers
@@ -90,7 +86,7 @@ namespace ClinicaAPI.Controllers
                 {
                     var dados = i.FileName.Split('|');
                     var dadosId = 0;
-                    if (int.TryParse(dados[0], out int meuInteiro))                    
+                    if (int.TryParse(dados[0], out int meuInteiro))
                     {
                         dadosId = meuInteiro;
                     }
@@ -102,7 +98,7 @@ namespace ClinicaAPI.Controllers
                         tmp.nome = i.FileName + "|" + i.ContentType + "|" + dia;
                         resultado.Add(tmp);
                     }
-                    
+
                 }
                 serviceResponse.Dados = resultado;
                 serviceResponse.Mensagem = "Sucesso!";

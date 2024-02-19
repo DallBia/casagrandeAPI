@@ -12,4 +12,6 @@ public interface IAgendaInterface
     Task<ServiceResponse<List<AgendaModel>>> GetMultiAgenda(string param);
     Task<ServiceResponse<List<AgendaModel>>> MultiAgenda(int id, string param);
     Task<string> TesteA(string x);
+    Task<ServiceResponse<List<AgendaModel>>> VerAgenda(string v);
+    Task<ServiceResponse<List<AgendaModel>>> AgendaByFin(int id, string data);
 }

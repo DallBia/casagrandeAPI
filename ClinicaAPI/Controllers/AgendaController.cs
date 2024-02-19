@@ -79,4 +79,20 @@ public class AgendaController : ControllerBase
         return (resposta);
     }
 
+    [HttpPost("Verif")]
+    public async Task<ActionResult<ServiceResponse<List<AgendaModel>>>> VerAgenda([FromBody] TipoModel t)
+    {
+        var v = t.nome;
+        ServiceResponse<List<AgendaModel>> serviceResponse = await _agendaInterface.VerAgenda(v);
+        return (serviceResponse);
+    }
+
+    [HttpPost("AgendaByFin")]
+    public async Task<ActionResult<ServiceResponse<List<AgendaModel>>>> AgendaByFin([FromBody] TipoModel t)
+    {
+        var v = t.nome;
+        ServiceResponse<List<AgendaModel>> serviceResponse = await _agendaInterface.AgendaByFin(t.id, v);
+
+        return (serviceResponse);
+    }
 }

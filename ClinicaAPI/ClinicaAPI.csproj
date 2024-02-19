@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20240218174109_ajusteFinanceiro.cs" />
+    <Compile Remove="Migrations\20240218174109_ajusteFinanceiro.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="service\Drive.json" />
   </ItemGroup>
 

@@ -383,16 +383,16 @@ namespace ClinicaAPI.Migrations
                     b.Property<int>("idFuncAlt")
                         .HasColumnType("integer");
 
-                    b.Property<string>("nome")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("recibo")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("refAgenda")
-                        .HasColumnType("integer");
+                    b.Property<string>("refAgenda")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("saldo")
+                        .HasColumnType("double precision");
 
                     b.Property<bool?>("selecionada")
                         .HasColumnType("boolean");

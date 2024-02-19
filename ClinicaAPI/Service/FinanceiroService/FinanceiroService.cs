@@ -79,7 +79,8 @@ namespace ClinicaAPI.Service.FinanceiroService
 
             try
             {
-                FinanceiroModel financeiro = _context.Financeiros.FirstOrDefault(x => x.refAgenda == Id);
+                string id = Id.ToString();
+                FinanceiroModel financeiro = _context.Financeiros.FirstOrDefault(x => x.refAgenda == id);
 
 
                 if (financeiro == null)

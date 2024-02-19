@@ -23,7 +23,7 @@ public class AgendaService : IAgendaInterface
             // Consulta no banco de dados para encontrar agendas na data especificada (dia).
             List<AgendaModel> agendas = await _context.Agendas
                 .Where(a => a.diaI.ToUniversalTime() <= dia.ToUniversalTime() && a.diaF.ToUniversalTime() >= dia.ToUniversalTime())
-                .OrderBy(a => a.diaI)
+                .OrderBy(a => a.id)
                 .ToListAsync();
 
             serviceResponse.Dados = agendas;
@@ -113,9 +113,11 @@ public class AgendaService : IAgendaInterface
 
              if (agendaExistente == null)
              {
-                 serviceResponse.Mensagem = "Agenda não encontrada.";
+                 var reso = await CreateAgenda(agendaAtualizada);
+                serviceResponse.Mensagem = "Agenda criada.";
                  return serviceResponse;
-             }
+                
+            }
 
              agendaExistente.idCliente = agendaAtualizada.idCliente;
              agendaExistente.idFuncAlt = agendaAtualizada.idFuncAlt;
@@ -464,6 +466,61 @@ public class AgendaService : IAgendaInterface
         {
             serviceResponse.Mensagem = "Ocorreu um erro";
             serviceResponse.Dados = null;
+            serviceResponse.Sucesso = false;
+        }
+        return serviceResponse;
+    }
+
+    public async Task<ServiceResponse<List<AgendaModel>>> VerAgenda(string v)
+    {
+        ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
+        var p = v.Split('%');
+        var sala = int.Parse(p[0]);
+        var horario = p[1];
+        var id = int.Parse(p[2]);
+        DateTime diaI = DateTime.Parse(p[3]);
+        List<AgendaModel> agendas = await _context.Agendas
+             .Where(x => x.diaF.ToUniversalTime() >= diaI.ToUniversalTime())
+                    .ToListAsync();
+
+        /* List<AgendaModel> agendas = await _context.Agendas
+             .Where(x => x.sala == sala 
+             && x.horario == horario
+             && x.diaF.ToUniversalTime() >= diaI.ToUniversalTime())
+                    .ToListAsync();*/
+        serviceResponse.Dados = agendas;
+        serviceResponse.Mensagem = agendas.Count.ToString() + " Dados Carregados";
+        serviceResponse.Sucesso = true;
+        if (agendas.Count == 0)
+        {
+            serviceResponse.Mensagem = "Nenhum dado";
+            serviceResponse.Sucesso = false;
+        }
+        return serviceResponse;
+    }
+
+    public async Task<ServiceResponse<List<AgendaModel>>> AgendaByFin(int id, string data)
+    {
+        ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
+
+        DateTime diaF = DateTime.Parse(data);
+        List<AgendaModel> agendas = await _context.Agendas
+             .Where(x => (x.diaF.ToUniversalTime() >= diaF.ToUniversalTime() || x.unidade == 1)
+                 && x.idCliente == id && 
+                 (x.status == (StatusEnum)5 || x.status == (StatusEnum)3 || x.status == (StatusEnum)2))
+                    .ToListAsync();
+
+        /* List<AgendaModel> agendas = await _context.Agendas
+             .Where(x => x.sala == sala 
+             && x.horario == horario
+             && x.diaF.ToUniversalTime() >= diaI.ToUniversalTime())
+                    .ToListAsync();*/
+        serviceResponse.Dados = agendas;
+        serviceResponse.Mensagem = agendas.Count.ToString() + " Dados Carregados";
+        serviceResponse.Sucesso = true;
+        if (agendas.Count == 0)
+        {
+            serviceResponse.Mensagem = "Nenhum dado";
             serviceResponse.Sucesso = false;
         }
         return serviceResponse;
