@@ -13,7 +13,7 @@ namespace ClinicaAPI.Models
         public DateTime dtAlt { get; set; } = DateTime.UtcNow;
         public string horario { get; set; }
         public int sala { get; set; }
-        public int unidade { get; set; }
+        public double unidade { get; set; } // usarei para definir: quanto falta ser pago. Começa com o valor cheio e vai abatendo de acordo com as entradas de pagto.
         public string configRept { get; set; }
         public DateTime diaI { get; set; }
         public DateTime diaF { get; set; }

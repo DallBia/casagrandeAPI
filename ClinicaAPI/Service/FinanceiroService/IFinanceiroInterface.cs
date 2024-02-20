@@ -10,5 +10,6 @@ namespace ClinicaAPI.Service.FinanceiroService
         Task<ServiceResponse<List<FinanceiroModel>>> GetFinanceirobyCliente(int idCliente);
         Task<ServiceResponse<List<FinanceiroModel>>> UpdateFinanceiro(FinanceiroModel editFinanceiro);
         Task<ServiceResponse<List<FinanceiroModel>>> DeleteFinanceiro(int Id);
+        Task<ServiceResponse<FinanceiroModel>> SaldoAgenda(TipoModel valor);
     }
 }

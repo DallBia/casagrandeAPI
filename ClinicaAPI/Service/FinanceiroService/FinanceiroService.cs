@@ -156,6 +156,95 @@ namespace ClinicaAPI.Service.FinanceiroService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<FinanceiroModel>> SaldoAgenda(TipoModel valor)
+        {
+            ServiceResponse<FinanceiroModel> serviceResponse = new ServiceResponse<FinanceiroModel>();
+            try
+            {
+                FinanceiroModel f = _context.Financeiros.AsNoTracking().FirstOrDefault(x => x.idCliente == valor.id
+                                                                                                       && x.selecionada == false
+                                                                                                       && x.refAgenda == "pg");
+                var v = valor.nome.Split('|');
+
+                if (f == null)
+                {
+                    serviceResponse.Mensagem = v[0];
+                    serviceResponse.Dados = null;
+                    serviceResponse.Sucesso = true;
+                }
+                else
+                {
+
+                    double vlr = double.Parse(v[0]);
+                    if (vlr > f.saldo)
+                    {
+                        double resto = vlr - f.saldo;
+                        f.saldo = 0;
+                        f.selecionada = true;
+                        FinanceiroModel f2 = new FinanceiroModel();
+                        f2.saldo = resto;
+                        f2.valor = f.saldo;
+                        f2.id = 0;
+                        f2.idCliente = valor.id;
+                        f2.selecionada = false;
+                        f2.descricao = "Baixa automática utilzando saldo do recibo " + f.recibo;
+                        f2.data = DateTime.Now;
+                        f2.refAgenda = v[1];
+                        f2.recibo = f.recibo;
+                        f2.idFuncAlt = int.Parse(v[2]);
+
+                        _context.Financeiros.Update(f);
+                        _context.Financeiros.Add(f2);
+                        await _context.SaveChangesAsync();
+                        serviceResponse.Dados = f;
+                        serviceResponse.Sucesso = true;
+                        serviceResponse.Mensagem = resto.ToString();
+                    }
+                    else
+                    {
+                        double resto = f.saldo - vlr;
+                        f.saldo = resto;
+                        if (resto == 0)
+                        {
+                            f.selecionada = true;
+                        }
+                        else
+                        {
+                            f.selecionada = false;
+                        }
+
+                        FinanceiroModel f2 = new FinanceiroModel();
+                        f2.saldo = 0;
+                        f2.valor = vlr;
+                        f2.id = 0;
+                        f2.idCliente = valor.id;
+                        f2.selecionada = true;
+                        f2.descricao = "Baixa automática utilzando saldo do recibo " + f.recibo;
+                        f2.data = DateTime.Today.ToUniversalTime();
+                        f2.refAgenda = v[1];
+                        f2.recibo = f.recibo;
+                        f2.idFuncAlt = int.Parse(v[2]);
+                        f.data = f.data.ToUniversalTime();
+                        
+                        _context.Financeiros.Update(f);
+                        _context.Financeiros.Add(f2);
+                        await _context.SaveChangesAsync();
+                        serviceResponse.Dados = f;
+                        serviceResponse.Sucesso = true;
+                        serviceResponse.Mensagem = "0.00";
+                    }
+                }
+                
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Mensagem = "Ocorreu um erro";
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<List<FinanceiroModel>>> UpdateFinanceiro(FinanceiroModel editFinanceiro)
         {
             ServiceResponse<List<FinanceiroModel>> serviceResponse = new ServiceResponse<List<FinanceiroModel>>();

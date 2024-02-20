@@ -59,5 +59,14 @@ namespace ClinicaAPI.Controllers
             ServiceResponse<List<FinanceiroModel>> serviceResponse = await _financeiroInterface.DeleteFinanceiro(Id);
             return Ok(serviceResponse);
         }
+        [HttpPut("Saldo")]
+            public async Task<ActionResult<ServiceResponse<FinanceiroModel>>> SaldoAgenda(TipoModel valor)
+            {
+                ServiceResponse<FinanceiroModel> serviceResponse = await _financeiroInterface.SaldoAgenda(valor);
+                return Ok(serviceResponse);
+            }
+
+
     }
+    
 }

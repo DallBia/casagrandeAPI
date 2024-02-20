@@ -81,8 +81,8 @@ namespace ClinicaAPI.Migrations
                     b.Property<string>("subtitulo")
                         .HasColumnType("text");
 
-                    b.Property<int>("unidade")
-                        .HasColumnType("integer");
+                    b.Property<double>("unidade")
+                        .HasColumnType("double precision");
 
                     b.Property<double?>("valor")
                         .HasColumnType("double precision");
