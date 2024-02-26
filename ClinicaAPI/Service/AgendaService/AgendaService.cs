@@ -1,8 +1,10 @@
 ﻿using ClinicaAPI.DataContext;
 using ClinicaAPI.Enums;
 using ClinicaAPI.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Exchange.WebServices.Data;
+using System;
 using System.Security.Cryptography;
 
 public class AgendaService : IAgendaInterface
@@ -78,6 +80,28 @@ public class AgendaService : IAgendaInterface
             serviceResponse.Mensagem = "Não foi possível adicionar";
             novaAgenda.diaI = novaAgenda.diaI.ToUniversalTime();
             novaAgenda.diaF = novaAgenda.diaF.ToUniversalTime();
+            List<AgendaModel> agendasTmp = await _context.Agendas
+                .Where(a => a.diaI.ToUniversalTime() <= novaAgenda.diaI.ToUniversalTime()
+                        && a.diaF.ToUniversalTime().AddHours(3) >= novaAgenda.diaF.ToUniversalTime()
+                        && a.horario == novaAgenda.horario
+                        && a.sala == novaAgenda.sala
+                        )
+                        .ToListAsync();
+            var Idata = novaAgenda.diaI.ToString().Substring(0, 10);
+            var Fdata = novaAgenda.diaF.ToString().Substring(0, 10);
+            foreach ( var agenda in agendasTmp)
+            {
+                var Idia = agenda.diaI.ToString().Substring(0,10);
+                var Fdia = agenda.diaF.ToString().Substring(0, 10);
+                if(Idia == Idata && Fdia == Fdata)
+                {
+                    agenda.status = (StatusEnum)8;
+                    agenda.diaI = agenda.diaI.ToUniversalTime();
+                    agenda.diaF = agenda.diaF.ToUniversalTime();
+                    agenda.dtAlt = DateTime.UtcNow;
+                }
+                _context.Agendas.Update(agenda);
+            }            
             _context.Agendas.Add(novaAgenda);
             await _context.SaveChangesAsync();
 
@@ -86,6 +110,7 @@ public class AgendaService : IAgendaInterface
             serviceResponse.Mensagem = "Não foi possível trazer de volta";
             List<AgendaModel> agendas = await _context.Agendas
                 .Where(a => a.diaI.ToUniversalTime() <= diaI.ToUniversalTime()
+                        && a.status != (StatusEnum)8
                         && a.diaF.ToUniversalTime().AddHours(3) >= diaI.ToUniversalTime())
                         .ToListAsync();
             serviceResponse.Dados = agendas;
@@ -170,6 +195,7 @@ public class AgendaService : IAgendaInterface
                 .Where(x => x.diaI.ToUniversalTime() <= testAgenda.diaI.ToUniversalTime().AddHours(3)
                                     && x.diaF.ToUniversalTime().AddHours(3) >= testAgenda.diaI.ToUniversalTime()
                                     && x.nome == testAgenda.nome
+                                    && x.status != (StatusEnum)8
                                     && x.horario == testAgenda.horario
                                     )
                 .ToList();          
@@ -247,6 +273,7 @@ public class AgendaService : IAgendaInterface
                                     && x.diaF.ToUniversalTime() >= testAgenda.diaI.ToUniversalTime()
                                     && x.sala == testAgenda.sala
                                     && x.horario == testAgenda.horario
+                                    && x.status != (StatusEnum)8
                                     && x.status != 0);
 
                 if (agendaExistente != null)
@@ -480,7 +507,8 @@ public class AgendaService : IAgendaInterface
         var id = int.Parse(p[2]);
         DateTime diaI = DateTime.Parse(p[3]);
         List<AgendaModel> agendas = await _context.Agendas
-             .Where(x => x.diaF.ToUniversalTime() >= diaI.ToUniversalTime())
+             .Where(x => x.diaF.ToUniversalTime() >= diaI.ToUniversalTime()
+                        && x.status != (StatusEnum)8)
                     .ToListAsync();
 
         /* List<AgendaModel> agendas = await _context.Agendas
@@ -502,13 +530,28 @@ public class AgendaService : IAgendaInterface
     public async Task<ServiceResponse<List<AgendaModel>>> AgendaByFin(int id, string data)
     {
         ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
-
-        DateTime diaF = DateTime.Parse(data);
-        List<AgendaModel> agendas = await _context.Agendas
-             .Where(x => (x.diaF.ToUniversalTime() >= diaF.ToUniversalTime() || x.unidade == 1)
-                 && x.idCliente == id && 
+        var dados = data.Split("|");
+        //Cliente | Pagtos | dataI | dataF | Pendentes | Pagos
+        DateTime diaI = DateTime.Parse(dados[2]);
+        DateTime diaF = DateTime.Parse(dados[3]);
+        List<AgendaModel> agendas = new();
+        if (dados[0] == "T")
+        {
+            agendas = await _context.Agendas
+             .Where(x => (x.diaI.ToUniversalTime() <= diaF.ToUniversalTime() && x.diaF.ToUniversalTime() >= diaI.ToUniversalTime())
+                 && x.idCliente == id && x.status != (StatusEnum)8 &&
                  (x.status == (StatusEnum)5 || x.status == (StatusEnum)3 || x.status == (StatusEnum)2))
                     .ToListAsync();
+        }
+        else
+        {
+            agendas = await _context.Agendas
+             .Where(x => (x.diaI.ToUniversalTime() <= diaF.ToUniversalTime() && x.diaF.ToUniversalTime() >= diaI.ToUniversalTime())
+                 && x.status != (StatusEnum)8 &&
+                 (x.status == (StatusEnum)5 || x.status == (StatusEnum)3 || x.status == (StatusEnum)2))
+                    .ToListAsync();
+        }
+        
 
         /* List<AgendaModel> agendas = await _context.Agendas
              .Where(x => x.sala == sala 
