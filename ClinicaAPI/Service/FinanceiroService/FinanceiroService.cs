@@ -187,7 +187,7 @@ namespace ClinicaAPI.Service.FinanceiroService
                         f2.id = 0;
                         f2.idCliente = valor.id;
                         f2.selecionada = false;
-                        f2.descricao = "Baixa automática utilzando saldo do recibo " + f.recibo;
+                        f2.descricao = "Baixa automática utilizando saldo do recibo " + f.recibo;
                         f2.data = DateTime.Now;
                         f2.refAgenda = v[1];
                         f2.recibo = f.recibo;
@@ -219,7 +219,7 @@ namespace ClinicaAPI.Service.FinanceiroService
                         f2.id = 0;
                         f2.idCliente = valor.id;
                         f2.selecionada = true;
-                        f2.descricao = "Baixa automática utilzando saldo do recibo " + f.recibo;
+                        f2.descricao = "Baixa automática utilizando saldo do recibo " + f.recibo;
                         f2.data = DateTime.Today.ToUniversalTime();
                         f2.refAgenda = v[1];
                         f2.recibo = f.recibo;

@@ -2,6 +2,7 @@
 using ClinicaAPI.Service.DonoSalaService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Exchange.WebServices.Data;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -31,6 +32,13 @@ public class AgendaController : ControllerBase
         var dia1 = dia0.ToUniversalTime();
 
         ServiceResponse<List<AgendaModel>> serviceResponse = await _agendaInterface.GetAgendaByDate(dia1);
+        return Ok(serviceResponse);
+    }
+    [HttpGet("Id/{Id}")]
+    public async Task<ActionResult<ServiceResponse<AgendaModel>>> GetAgendaId(int id)
+    {
+        
+        ServiceResponse<AgendaModel> serviceResponse = await _agendaInterface.GetAgendaById(id);
         return Ok(serviceResponse);
     }
 
@@ -71,11 +79,12 @@ public class AgendaController : ControllerBase
          ServiceResponse<List<AgendaModel>> serviceResponse = await _agendaInterface.MultiAgenda(id, par);
          return Ok(serviceResponse);
     }
+        
 
-    [HttpGet("Teste")]
-    public async Task<string> Teste(string x)
+    [HttpPost("Teste/{id}")]
+    public async Task<string> Teste(int id)
     {
-        string resposta = await _agendaInterface.TesteA(x);
+        string resposta = await _agendaInterface.TesteA(id);
         return (resposta);
     }
 

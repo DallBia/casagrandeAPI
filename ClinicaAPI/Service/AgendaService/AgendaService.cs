@@ -1,6 +1,7 @@
 ﻿using ClinicaAPI.DataContext;
 using ClinicaAPI.Enums;
 using ClinicaAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Exchange.WebServices.Data;
@@ -15,7 +16,32 @@ public class AgendaService : IAgendaInterface
     {
         _context = context;
     }
+    public async Task<ServiceResponse<AgendaModel>> GetAgendaById(int id)
+    {
+        ServiceResponse<AgendaModel> serviceResponse = new ServiceResponse<AgendaModel>();
 
+        try
+        {
+            var agendaExistente = _context.Agendas.AsNoTracking().FirstOrDefault(x => x.id == id);
+            serviceResponse.Mensagem = "Ok";
+            serviceResponse.Sucesso = true;
+            serviceResponse.Dados = agendaExistente;
+
+            if (agendaExistente == null)
+            {
+                serviceResponse.Mensagem = "Nenhum dado encontrado.";
+                serviceResponse.Dados = null;
+                serviceResponse.Sucesso = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            serviceResponse.Mensagem = ex.Message;
+            serviceResponse.Sucesso = false;
+        }
+
+        return serviceResponse;
+    }
     public async Task<ServiceResponse<List<AgendaModel>>> GetAgendaByDate(DateTime dia)
     {
         ServiceResponse<List<AgendaModel>> serviceResponse = new ServiceResponse<List<AgendaModel>>();
@@ -44,24 +70,20 @@ public class AgendaService : IAgendaInterface
         return serviceResponse;
     }
 
-    public async Task<string> TesteA(string x)
+    public async Task<string> TesteA(int id)
     {
         try
         {
-            var rsp = DateTime.TryParseExact(x, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime resultado);
-            resultado = resultado.AddHours(3);
-            var dados = _context.Agendas
-                .Where(x => x.diaI.ToUniversalTime() <= resultado.ToUniversalTime() && x.diaF.ToUniversalTime() >= resultado.ToUniversalTime())
-                .ToList();
+            var agendaExistente = _context.Agendas.AsNoTracking().FirstOrDefault(x => x.id == id);
 
-            if (dados == null)
+            if (agendaExistente == null)
             {
-                return "Sem dados";
+                return "Dados não encontrados";
+
             }
             else
             {
-                var resp = dados.Count();
-                return resp.ToString();
+                return agendaExistente.nome;
             }
         }
         catch
@@ -69,7 +91,7 @@ public class AgendaService : IAgendaInterface
             return "Erro";
         }
     }
-
+   
 
     public async Task<ServiceResponse<List<AgendaModel>>> CreateAgenda(AgendaModel novaAgenda)
     {
@@ -568,4 +590,6 @@ public class AgendaService : IAgendaInterface
         }
         return serviceResponse;
     }
+
+    
 }
